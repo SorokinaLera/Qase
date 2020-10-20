@@ -25,6 +25,8 @@ public class BaseTest {
     ProjectsPage projectsPage;
     TestPlansPage testPlansPage;
     TestRunsPage testRunsPage;
+    public final static String CORRECT_EMAIL = System.getProperty("email");
+    public final static String CORRECT_PASSWORD = System.getProperty("password");
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {
@@ -40,6 +42,7 @@ public class BaseTest {
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         loginPage = new LoginPage(driver);
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);

@@ -7,4 +7,12 @@ public class TestPlansPage extends BasePage{
     public TestPlansPage(WebDriver driver){
         super(driver);
     }
+
+    public TestPlansPage isPageOpened() {
+        return this;
+    }
+
+    public TestPlansPage openPage() {
+        return this;
+    }
 }
