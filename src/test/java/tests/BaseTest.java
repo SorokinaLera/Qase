@@ -1,7 +1,6 @@
 package tests;
 
 import lombok.extern.log4j.Log4j2;
-import org.openqa.selenium.By;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,8 +19,6 @@ import java.util.concurrent.TimeUnit;
 @Listeners(TestListener.class)
 
 public class BaseTest {
-    public final static String EMAIL = System.getProperty("email");
-    public final static String PASSWORD = System.getProperty("password");
     WebDriver driver;
     LoginPage loginPage;
     ProjectPage projectPage;
