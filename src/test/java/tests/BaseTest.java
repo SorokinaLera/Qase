@@ -23,8 +23,8 @@ public class BaseTest {
     LoginPage loginPage;
     ProjectPage projectPage;
     ProjectsPage projectsPage;
-    TestPlanPage testPlanPage;
-    TestRunPage testRunPage;
+    TestPlansPage testPlansPage;
+    TestRunsPage testRunsPage;
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {
@@ -32,7 +32,7 @@ public class BaseTest {
         try {
             driver = new ChromeDriver(CapabilitiesGenerator.getChromeOptions());
         } catch (SessionNotCreatedException ex) {
-            Assert.fail("Браузер не был открыт. Проверьте, что используется корректная версия драйвера");
+            Assert.fail("The browser wasn't opened. Make sure that you are using the correct driver version");
         }
         String variable = "driver";
         log.info("Setting driver into context with variable name " + variable);
@@ -43,8 +43,8 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
-        testPlanPage = new TestPlanPage(driver);
-        testRunPage = new TestRunPage(driver);
+        testPlansPage = new TestPlansPage(driver);
+        testRunsPage = new TestRunsPage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
