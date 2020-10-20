@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @Listeners(TestListener.class)
-
 public class BaseTest {
     WebDriver driver;
     LoginPage loginPage;

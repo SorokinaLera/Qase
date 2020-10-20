@@ -13,8 +13,7 @@ public class ProjectsTest extends BaseTest {
                 .isPageOpened()
                 .createNewProject("new1", "someCode", "someDescription");
         projectsPage
+                .openPage()
                 .validateThatNewProjectIsInProjectsList("new1");
-        projectsPage
-                .deleteProject("new1");
     }
 }
