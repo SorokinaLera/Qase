@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,17 +23,20 @@ public class ProjectsPage extends BasePage {
         super(driver);
     }
 
+    @Step("Validation that the web page is opened")
     public ProjectsPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(PROJECTS_LIST));
         return this;
     }
 
+    @Step("Open web page")
     public ProjectsPage openPage() {
         driver.get(URL);
         isPageOpened();
         return this;
     }
 
+    @Step("Create New Project")
     public ProjectPage createNewProject(String name, String code, String description){
         driver.findElement(CREATE_NEW_PROJECT_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SUBMIT_BUTTON));
@@ -44,9 +48,12 @@ public class ProjectsPage extends BasePage {
         return new ProjectPage(driver);
     }
 
+    @Step("Validate that New Project is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
         return driver.findElement(By.xpath(String.format(newProjectName, name))).isDisplayed();
     }
+
+    @Step("Delete Project")
     public ProjectsPage deleteProject(String name){
         driver.findElement(By.xpath(String.format(projectToggle, name))).click();
         driver.findElement(DELETE_BUTTON).click();
