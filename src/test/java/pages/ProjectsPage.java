@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class ProjectsPage extends BasePage {
     public static String URL = "projects";
-    public static String projectName = "//*[contains(text(),'%s')]";
+    public static String projectName = "//*[contains(@class, 'defect-title') and contains(text(),'%s')]";
     public static String projectToggle = "//*[contains(text(),'%s')]//ancestor::tr[@class='project-row']//a[@data-toggle='dropdown']";
     public static final By DELETE_BUTTON = By.xpath("//*[contains(text(),'Delete')]");
     public static final By DELETE_CONFIRMATION_BUTTON = By.cssSelector(".btn-cancel");
