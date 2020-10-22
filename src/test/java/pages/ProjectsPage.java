@@ -5,8 +5,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static tests.BaseTest.URN;
+
 public class ProjectsPage extends BasePage {
-    public static String URL = "https://app.qase.io/projects";
+    public static String URL = "projects";
     public static String projectName = "//*[contains(text(),'%s')]";
     public static String projectToggle = "//*[contains(text(),'%s')]//ancestor::tr[@class='project-row']//a[@data-toggle='dropdown']";
     public static final By DELETE_BUTTON = By.xpath("//*[contains(text(),'Delete')]");
@@ -22,20 +24,20 @@ public class ProjectsPage extends BasePage {
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validate that the web page is opened")
     public ProjectsPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(PROJECTS_LIST));
         return this;
     }
 
-    @Step("Open web page")
+    @Step("Open home page")
     public ProjectsPage openPage() {
-        driver.get(URL);
+        driver.get(URN + URL);
         isPageOpened();
         return this;
     }
 
-    @Step("Create New Project")
+    @Step("Create new project {name}")
     public ProjectPage createNewProject(String name, String code, String description){
         driver.findElement(CREATE_NEW_PROJECT_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SUBMIT_BUTTON));
@@ -46,12 +48,12 @@ public class ProjectsPage extends BasePage {
         return new ProjectPage(driver);
     }
 
-    @Step("Validate that New Project is in Projects List")
+    @Step("Validate that {name} is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
         return driver.findElement(By.xpath(String.format(projectName, name))).isDisplayed();
     }
 
-    @Step("Delete Project")
+    @Step("Delete project {name}")
     public ProjectsPage deleteProject(String name){
         driver.findElement(By.xpath(String.format(projectToggle, name))).click();
         driver.findElement(DELETE_BUTTON).click();
@@ -59,6 +61,7 @@ public class ProjectsPage extends BasePage {
         return this;
     }
 
+    @Step("Open project {name}")
     public ProjectPage openProject(String name){
         driver.findElement(By.xpath(String.format(projectName, name))).click();
         return new ProjectPage(driver);
