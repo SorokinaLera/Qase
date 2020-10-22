@@ -13,7 +13,6 @@ import org.testng.Assert;
 
 import java.util.List;
 
-import static tests.BaseTest.URN;
 @Log4j2
 public class ProjectPage extends BasePage{
     public static String URL = "project/";
