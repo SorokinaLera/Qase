@@ -45,10 +45,13 @@ public class ProjectPage extends BasePage{
         return this;
     }
 
+    @Step("Click button to create test case")
     public ProjectPage clickOnNewCaseCreatingButton(){
         driver.findElement(CREATE_NEW_CASE_BUTTON).click();
         return this;
     }
+
+    @Step("Setting parameters for a new test case")
     public ProjectPage addTestCaseParameters(TestCase testCase){
         new Input(driver, "Title").write(testCase.getTitle());
         new Input(driver, "Description").write(testCase.getDescription());
@@ -99,7 +102,7 @@ public class ProjectPage extends BasePage{
         return this;
     }
 
-    @Step("Validation that the case is not exist anymore")
+    @Step("Validation that the case does not exist anymore")
     public ProjectPage validateThatCaseDoesNotExist(String testCase) {
 
         List<WebElement> testCases = driver.findElements(TEST_CASE);

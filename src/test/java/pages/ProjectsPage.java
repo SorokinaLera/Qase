@@ -22,20 +22,20 @@ public class ProjectsPage extends BasePage {
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validation that the home page is opened")
     public ProjectsPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(PROJECTS_LIST));
         return this;
     }
 
-    @Step("Open web page")
+    @Step("Open home page")
     public ProjectsPage openPage() {
         driver.get(URL);
         isPageOpened();
         return this;
     }
 
-    @Step("Create New Project")
+    @Step("Create new project")
     public ProjectPage createNewProject(String name, String code, String description){
         driver.findElement(CREATE_NEW_PROJECT_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SUBMIT_BUTTON));
@@ -46,12 +46,12 @@ public class ProjectsPage extends BasePage {
         return new ProjectPage(driver);
     }
 
-    @Step("Validate that New Project is in Projects List")
+    @Step("Validation that the project is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
         return driver.findElement(By.xpath(String.format(projectName, name))).isDisplayed();
     }
 
-    @Step("Delete Project")
+    @Step("Delete project")
     public ProjectsPage deleteProject(String name){
         driver.findElement(By.xpath(String.format(projectToggle, name))).click();
         driver.findElement(DELETE_BUTTON).click();
@@ -59,6 +59,7 @@ public class ProjectsPage extends BasePage {
         return this;
     }
 
+    @Step("Open project")
     public ProjectPage openProject(String name){
         driver.findElement(By.xpath(String.format(projectName, name))).click();
         return new ProjectPage(driver);

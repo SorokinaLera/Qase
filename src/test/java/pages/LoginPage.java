@@ -17,13 +17,13 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validation that the login page is opened")
     public LoginPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LOGIN_BUTTON));
         return this;
     }
 
-    @Step("Open web page")
+    @Step("Open login page")
     public LoginPage openPage() {
         driver.get(URL);
         isPageOpened();
