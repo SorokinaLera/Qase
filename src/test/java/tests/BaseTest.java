@@ -24,8 +24,8 @@ public class BaseTest {
     ProjectsPage projectsPage;
     TestPlansPage testPlansPage;
     TestRunsPage testRunsPage;
-    public final static String CORRECT_EMAIL = System.getProperty("email");
-    public final static String CORRECT_PASSWORD = System.getProperty("password");
+    public final static String CORRECT_EMAIL = System.getenv("email");
+    public final static String CORRECT_PASSWORD = System.getenv("password");
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {

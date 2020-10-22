@@ -18,4 +18,15 @@ public class ProjectsTest extends BaseTest {
                 .openPage()
                 .validateThatNewProjectIsInProjectsList("new1");
     }
+
+    @Test(retryAnalyzer = Retry.class)
+    public void openProject(){
+        loginPage
+                .openPage()
+                .login(CORRECT_EMAIL, CORRECT_PASSWORD)
+                .isPageOpened()
+                .openProject("Demo")
+                .isPageOpened();
+    }
+
 }
