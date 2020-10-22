@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @Listeners(TestListener.class)
-
 public class BaseTest {
     WebDriver driver;
     LoginPage loginPage;
@@ -25,6 +24,8 @@ public class BaseTest {
     ProjectsPage projectsPage;
     TestPlansPage testPlansPage;
     TestRunsPage testRunsPage;
+    public final static String CORRECT_EMAIL = System.getenv("email");
+    public final static String CORRECT_PASSWORD = System.getenv("password");
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {
@@ -40,6 +41,7 @@ public class BaseTest {
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
         loginPage = new LoginPage(driver);
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);

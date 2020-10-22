@@ -37,6 +37,11 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.10.0</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -46,6 +51,7 @@
         <lombok>1.18.8</lombok>
         <log4j-core>2.12.1</log4j-core>
         <jackson-dataformat-yaml>2.11.3</jackson-dataformat-yaml>
+        <allure-testng>2.10.0</allure-testng>
     </properties>
 
     <dependencies>
@@ -84,6 +90,14 @@
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson-dataformat-yaml}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-testng -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure-testng}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
