@@ -5,12 +5,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import static org.testng.Assert.assertEquals;
 import static tests.BaseTest.URN;
 
 public class ProjectPage extends BasePage{
     public static String URL = "project/";
     //public static String projectName = "//*[contains(text(),'%s')]";
-    public static String projectName = "//*[contains(@class, 'defect-title') and contains(text(),'%s')]";
+    public static String PROJECT_NAME = ".subheader";
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
 
     public ProjectPage (WebDriver driver){
@@ -30,7 +31,7 @@ public class ProjectPage extends BasePage{
         return this;
     }
 
-    public boolean validateThatProjectIsOpened(String name){
-        return driver.findElement(By.xpath(String.format(projectName, name))).isDisplayed();
+    public void validateThatProjectIsOpened(String projectName){
+        assertEquals(driver.findElement(By.cssSelector(PROJECT_NAME)).getText(), projectName.toUpperCase());
     }
 }

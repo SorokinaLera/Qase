@@ -13,6 +13,7 @@ import java.util.List;
 @Log4j2
 
 public class CreateSuiteCasePage extends BasePage {
+    //TODO напомню в JAVA у переменных camelCase, а не Snake_Case
     public static final By Trash_Bin_Button = By.xpath("//*[@class='fa fa-trash']");
     public static final By Suite_name_field = By.id("inputTitle");
     public static final By Parent_suite_field = By.cssSelector(".filter-option.pull-left");
@@ -40,8 +41,8 @@ public class CreateSuiteCasePage extends BasePage {
         driver.findElement(Add_Suite_button).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(Save_button));
         driver.findElement(Suite_name_field).sendKeys(name);
-        driver.findElement(Parent_suite_field).submit();
-        new TextArea(driver, "Preconditions").write("important");
+        //driver.findElement(Parent_suite_field).submit(); //TODO какой к черту сабмит
+        new TextArea(driver, "Preconditions").write("important"); //TODO что за хардкод данных внутри метода
         new TextArea(driver, "Description").write("important");
         driver.findElement(Save_button).click();
         return this;
