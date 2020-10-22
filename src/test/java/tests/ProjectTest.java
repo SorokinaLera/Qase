@@ -33,6 +33,6 @@ public class ProjectTest extends BaseTest {
                 .clickOnNewCaseCreatingButton()
                 .addTestCaseParameters(testCase)
                 .clickOnSaveButton()
-                .validateThatNewCaseIsCreated(testCase.getSuite(), testCase.getTitle());
+                .validateThatNewCaseIsCreated(testCase.getTitle());
     }
 }
