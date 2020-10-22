@@ -3,17 +3,25 @@ package pages;
 import elements.Input;
 import elements.Select;
 import io.qameta.allure.Step;
+import lombok.extern.log4j.Log4j2;
 import models.TestCase;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
+import java.util.List;
+
+@Log4j2
 public class ProjectPage extends BasePage{
     public static String URL = "https://app.qase.io/project/";
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
     public static final By CREATE_NEW_CASE_BUTTON = By.cssSelector(".btn.mr-2.btn-primary");
     public static final By SAVE_NEW_TEST_CASE_BUTTON = By.xpath("//*[(text() = 'Save')]");
     public static final By TEST_CASE = By.cssSelector(".case-row-title");
+    public static final By DELETE_TEST_CASE_BUTTON = By.cssSelector("button[title='Delete case']");
+    public static final By DELETE_CONFIRMATION_BUTTON = By.xpath("//button[contains(@class, 'btn-danger') and contains(text(),'Delete')]");
 
     public ProjectPage (WebDriver driver){
         super(driver);
@@ -29,6 +37,11 @@ public class ProjectPage extends BasePage{
     public ProjectPage openPage(String projectName) {
         driver.get(URL + projectName);
         isPageOpened();
+        return this;
+    }
+
+    public ProjectPage refreshPage(){
+        driver.navigate().refresh();
         return this;
     }
 
@@ -52,11 +65,13 @@ public class ProjectPage extends BasePage{
         return this;
     }
 
+    @Step("Click on \"Save\" button")
     public ProjectPage clickOnSaveButton(){
         driver.findElement(SAVE_NEW_TEST_CASE_BUTTON).click();
         return this;
     }
 
+    @Step("Validation that new case is crated")
     public boolean validateThatNewCaseIsCreated(String testCase) {
         boolean condition = false;
         for (int i = 0; i <= driver.findElements(TEST_CASE).size(); i++) {
@@ -66,5 +81,38 @@ public class ProjectPage extends BasePage{
             }
         }
         return condition;
+    }
+
+    @Step("Delete test case")
+    public ProjectPage deleteTestCase(String testCase) {
+        List<WebElement> testCases = driver.findElements(TEST_CASE);
+        for (WebElement element: testCases) {
+            String testCaseName = element.getText();
+            log.info("Test case: " + testCaseName);
+            if (testCaseName.equals(testCase)) {
+                element.click();
+                driver.findElement(DELETE_TEST_CASE_BUTTON).click();
+                driver.findElement(DELETE_CONFIRMATION_BUTTON).click();
+                log.info(String.format("Test case \"%s\" was deleted", testCaseName));
+            }
+        }
+        return this;
+    }
+
+    @Step("Validation that the case is not exist anymore")
+    public ProjectPage validateThatCaseDoesNotExist(String testCase) {
+
+        List<WebElement> testCases = driver.findElements(TEST_CASE);
+        int count = 0;
+        for (WebElement element: testCases) {
+            String testCaseName = element.getText();
+            log.info("Test case: " + testCaseName);
+            if (testCaseName.equals(testCase)) {
+                log.error(String.format("Test case \"%s\" still exists", testCase));
+                count++;
+            }
+        }
+        Assert.assertEquals(count, 0);
+        return this;
     }
 }
