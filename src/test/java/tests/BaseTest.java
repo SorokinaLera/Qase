@@ -26,6 +26,7 @@ public class BaseTest {
     TestRunsPage testRunsPage;
     public final static String CORRECT_EMAIL = System.getenv("email");
     public final static String CORRECT_PASSWORD = System.getenv("password");
+    public final static String URN = "https://app.qase.io/";
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {

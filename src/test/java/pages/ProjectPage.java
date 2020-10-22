@@ -13,9 +13,10 @@ import org.testng.Assert;
 
 import java.util.List;
 
+import static tests.BaseTest.URN;
 @Log4j2
 public class ProjectPage extends BasePage{
-    public static String URL = "https://app.qase.io/project/";
+    public static String URL = "project/";
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
     public static final By CREATE_NEW_CASE_BUTTON = By.cssSelector(".btn.mr-2.btn-primary");
     public static final By SAVE_NEW_TEST_CASE_BUTTON = By.xpath("//*[(text() = 'Save')]");
@@ -27,15 +28,15 @@ public class ProjectPage extends BasePage{
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validation that the project is opened")
     public ProjectPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(TEST_REPOSITORY_PAGE_TITLE));
         return this;
     }
 
-    @Step("Open web page")
+    @Step("Open page with {projectName} project")
     public ProjectPage openPage(String projectName) {
-        driver.get(URL + projectName);
+        driver.get(URN + URL + projectName);
         isPageOpened();
         return this;
     }
