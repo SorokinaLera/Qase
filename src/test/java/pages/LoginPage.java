@@ -1,5 +1,6 @@
 package pages;
 
+import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,17 +17,19 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
+    @Step("Validation that the web page is opened")
     public LoginPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LOGIN_BUTTON));
         return this;
     }
 
+    @Step("Open web page")
     public LoginPage openPage() {
         driver.get(URL);
         isPageOpened();
         return this;
     }
-
+    @Step("Login using correct data")
     public ProjectsPage login(String email, String password){
         driver.findElement(EMAIL).sendKeys(email);
         driver.findElement(PASSWORD).sendKeys(password);
