@@ -24,8 +24,12 @@ public class BaseTest {
     ProjectsPage projectsPage;
     TestPlansPage testPlansPage;
     TestRunsPage testRunsPage;
-    public final static String CORRECT_EMAIL = System.getenv("email");
-    public final static String CORRECT_PASSWORD = System.getenv("password");
+    CreateSuiteCasePage createSuitePage;
+    //    public final static String CORRECT_EMAIL = System.getenv("email");
+//    public final static String CORRECT_PASSWORD = System.getenv("password");
+    public final static String CORRECT_EMAIL = "arimelka@yandex.by";
+    public final static String CORRECT_PASSWORD = "Q033008061zxcv";
+
     public final static String URN = "https://app.qase.io/";
 
     @BeforeMethod
@@ -48,6 +52,7 @@ public class BaseTest {
         projectsPage = new ProjectsPage(driver);
         testPlansPage = new TestPlansPage(driver);
         testRunsPage = new TestRunsPage(driver);
+        createSuitePage = new CreateSuiteCasePage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
