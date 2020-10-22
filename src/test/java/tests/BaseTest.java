@@ -25,10 +25,9 @@ public class BaseTest {
     TestPlansPage testPlansPage;
     TestRunsPage testRunsPage;
     CreateSuiteCasePage createSuitePage;
-    //    public final static String CORRECT_EMAIL = System.getenv("email");
-//    public final static String CORRECT_PASSWORD = System.getenv("password");
-    public final static String CORRECT_EMAIL = "arimelka@yandex.by";
-    public final static String CORRECT_PASSWORD = "Q033008061zxcv";
+    public final static String CORRECT_EMAIL = System.getenv("email");
+    public final static String CORRECT_PASSWORD = System.getenv("password");
+
 
     public final static String URN = "https://app.qase.io/";
 
