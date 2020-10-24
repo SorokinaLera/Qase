@@ -76,7 +76,7 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    @Step("Validation that new suite is crated")
+    @Step("Validation that new suite is created")
     public boolean validateThatNewSuiteIsCreated(String testSuite) {
         boolean condition = false;
         for (int i = 0; i <= driver.findElements(TEST_SUITE_NAME_TITLE).size(); i++) {
