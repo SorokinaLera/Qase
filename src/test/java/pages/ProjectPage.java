@@ -23,7 +23,6 @@ public class ProjectPage extends BasePage {
     public static String PROJECT_NAME = ".subheader";
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
     public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']");
-    //public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']/ancestor::button[@class='suite-control']");
     public static final By ADD_SUITE_BUTTON = By.cssSelector(".btn.mr-3.btn-primary");
     public static final By SAVE_BUTTON = By.id("saveButton");
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
