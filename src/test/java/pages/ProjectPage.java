@@ -8,6 +8,7 @@ import models.TestSuite;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
@@ -22,6 +23,7 @@ public class ProjectPage extends BasePage {
     public static String PROJECT_NAME = ".subheader";
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
     public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']");
+    //public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']/ancestor::button[@class='suite-control']");
     public static final By ADD_SUITE_BUTTON = By.cssSelector(".btn.mr-3.btn-primary");
     public static final By SAVE_BUTTON = By.id("saveButton");
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
@@ -94,7 +96,9 @@ public class ProjectPage extends BasePage {
             String testSuiteName = element.getText();
             log.info("Test suite: " + testSuiteName);
             if (testSuiteName.equals(name)) {
-                driver.findElement(TRASH_BIN_BUTTON).click();
+                WebElement trashBinIconElement = driver.findElement(TRASH_BIN_BUTTON);
+                Actions actions = new Actions(driver);
+                actions.moveToElement(trashBinIconElement).click().perform();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DELETE_SUITE_BUTTON));
                 driver.findElement(DELETE_SUITE_BUTTON).click();
                 log.info(String.format("Test suite '%s' was deleted", testSuiteName));
