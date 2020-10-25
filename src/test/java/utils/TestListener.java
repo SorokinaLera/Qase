@@ -40,10 +40,14 @@ public class TestListener implements ITestListener {
         ITestContext context = iTestResult.getTestContext();
         WebDriver driver = (WebDriver) context.getAttribute("driver");
         try {
-            return ((TakesScreenshot) context.getAttribute("driver")).getScreenshotAs(OutputType.BYTES);
+            if(driver != null) {
+                return ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            } else {
+                return new byte[]{};
+            }
         } catch (NoSuchSessionException | IllegalStateException ex) {
             log.error("Cannot take screenshot for test " + iTestResult.getName() + " using driver " + driver);
-            return null;
+            return new byte[]{};
         }
     }
 

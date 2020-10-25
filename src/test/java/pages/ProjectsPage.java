@@ -5,8 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static tests.BaseTest.URN;
-
 public class ProjectsPage extends BasePage {
     public static String URL = "projects";
     public static String projectName = "//*[contains(@class, 'defect-title') and contains(text(),'%s')]";
