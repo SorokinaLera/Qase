@@ -8,12 +8,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.concurrent.TimeUnit;
-
-import static tests.BaseTest.URN;
 
 public class TestPlansPage extends BasePage{
-    public static final By TEST_PLANS_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Plans')]");
+    public static String URL = "plan/";
     public static final By TEST_PLANS_PAGE_TITLE = By.xpath("//*[@id='react-app']//h1[contains(text(),'Test plans')]");
     public static final By CREATE_TEST_PLAN_BUTTON = By.xpath("//*[contains(@class, 'btn btn btn-primary') and contains(text(),'Create test plan')]");
     public static final By CREATE_PLAN_BUTTON = By.xpath("//*[contains(@class, 'btn btn btn-primary') and contains(text(),'Create plan')]");
@@ -31,8 +28,8 @@ public class TestPlansPage extends BasePage{
     }
 
     @Step("Open page with testPlan page project")
-    public TestPlansPage openPage() {
-        driver.findElement(TEST_PLANS_PAGE).click();
+    public TestPlansPage openPage(String projectName) {
+        driver.get(URN + URL + projectName);
         isPageOpened();
         return this;
     }

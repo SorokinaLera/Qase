@@ -33,6 +33,7 @@ public class ProjectPage extends BasePage {
     public static final By CONFIRM_CREATING_SUITE_BUTTON = By.id("saveButton");
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
     public static final By TEST_SUITE_NAME_TITLE = By.cssSelector(".suite-header");
+    public static final By TEST_PLANS_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Plans')]");
 
     public ProjectPage (WebDriver driver){
         super(driver);
@@ -201,5 +202,10 @@ public class ProjectPage extends BasePage {
         }
         Assert.assertEquals(count, 0);
         return this;
+    }
+
+    public TestPlansPage goToTestPlanPage(){
+        driver.findElement(TEST_PLANS_PAGE).click();
+        return new TestPlansPage(driver);
     }
 }

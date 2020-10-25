@@ -18,8 +18,10 @@ public class TestPlansTests extends BaseTest{
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
                 .isPageOpened();
-        projectsPage.openProject("Qase");
-        testPlansPage.openPage()
+        projectsPage
+                .openProject("Qase")
+                .goToTestPlanPage();
+        testPlansPage
                 .createTestPlan()
                 .addTestPlanParameters(testPlans)
                 .validateThatTestPlanIsCreated();
