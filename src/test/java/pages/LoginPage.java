@@ -31,9 +31,9 @@ public class LoginPage extends BasePage {
     }
     @Step("Login using correct data")
     public ProjectsPage login(String email, String password){
+        log.info("Logging with Email: " + email + " Password: " + password);
         driver.findElement(EMAIL).sendKeys(email);
         driver.findElement(PASSWORD).sendKeys(password);
-        log.info("Email: " + email + " Password: " + password);
         driver.findElement(LOGIN_BUTTON).click();
         return new ProjectsPage(driver);
     }

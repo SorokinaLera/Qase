@@ -25,7 +25,7 @@ public class ProjectsTest extends BaseTest {
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
                 .isPageOpened()
-                .openProject("Demo")
+                .openProject("Qase")
                 .isPageOpened();
     }
 
