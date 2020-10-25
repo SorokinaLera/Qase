@@ -2,29 +2,22 @@ package pages;
 
 import elements.Input;
 import elements.Select;
-import elements.Input;
 import elements.TextArea;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import models.TestCase;
-import lombok.extern.log4j.Log4j2;
 import models.TestSuite;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
 import java.util.List;
-import java.util.List;
 
 import static org.testng.Assert.assertEquals;
-import static tests.BaseTest.URN;
 
-@Log4j2
-public class ProjectPage extends BasePage{
 @Log4j2
 public class ProjectPage extends BasePage {
     public static String URL = "project/";
@@ -37,7 +30,7 @@ public class ProjectPage extends BasePage {
     public static final By DELETE_CONFIRMATION_BUTTON = By.xpath("//button[contains(@class, 'btn-danger') and contains(text(),'Delete')]");
     public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']");
     public static final By ADD_SUITE_BUTTON = By.cssSelector(".btn.mr-3.btn-primary");
-    public static final By SAVE_BUTTON = By.id("saveButton");
+    public static final By CONFIRM_CREATING_SUITE_BUTTON = By.id("saveButton");
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
     public static final By TEST_SUITE_NAME_TITLE = By.cssSelector(".suite-header");
 
@@ -55,11 +48,6 @@ public class ProjectPage extends BasePage {
     public ProjectPage openPage(String projectName) {
         driver.get(URN + URL + projectName);
         isPageOpened();
-        return this;
-    }
-
-    public ProjectPage refreshPage(){
-        driver.navigate().refresh();
         return this;
     }
 
@@ -87,7 +75,7 @@ public class ProjectPage extends BasePage {
     }
 
     @Step("Click on \"Save\" button")
-    public ProjectPage clickOnSaveButton(){
+    public ProjectPage clickOnSaveTestCaseButton(){
         driver.findElement(SAVE_NEW_TEST_CASE_BUTTON).click();
         return this;
     }
@@ -104,7 +92,7 @@ public class ProjectPage extends BasePage {
         return condition;
     }
 
-    @Step("Delete test case")
+    @Step("Delete test case \"{testCase}\"")
     public ProjectPage deleteTestCase(String testCase) {
         List<WebElement> testCases = driver.findElements(TEST_CASE);
         for (WebElement element: testCases) {
@@ -120,7 +108,7 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    @Step("Validation that the case does not exist anymore")
+    @Step("Validation that the case \"{testCase}\" does not exist anymore")
     public ProjectPage validateThatCaseDoesNotExist(String testCase) {
 
         List<WebElement> testCases = driver.findElements(TEST_CASE);
@@ -148,23 +136,23 @@ public class ProjectPage extends BasePage {
     }
 
     @Step("Click button to create test suite")
-    public ProjectPage clickOnNewSuiteCreatingButton(TestSuite testSuite) {
+    public ProjectPage clickOnNewSuiteCreatingButton() {
         driver.findElement(ADD_SUITE_BUTTON).click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SAVE_BUTTON));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(CONFIRM_CREATING_SUITE_BUTTON));
         return this;
     }
 
     @Step("Setting parameters for a new test suite")
-    public ProjectPage addTestSiteParameters(TestSuite testSuite) {
+    public ProjectPage addTestSuiteParameters(TestSuite testSuite) {
         new Input(driver, "Suite name").write(testSuite.getSuiteName());
         new TextArea(driver, "Preconditions").write(testSuite.getPreconditions());
         new TextArea(driver, "Description").write(testSuite.getDescription());
         return this;
     }
 
-    @Step("Click on 'Save' button")
+    @Step("Click on \"Create Suite\" button")
     public ProjectPage clickOnSaveButton() {
-        driver.findElement(SAVE_BUTTON).click();
+        driver.findElement(CONFIRM_CREATING_SUITE_BUTTON).click();
         return this;
     }
 
@@ -180,7 +168,7 @@ public class ProjectPage extends BasePage {
         return condition;
     }
 
-    @Step("Delete test suite")
+    @Step("Delete test suite {name}")
     public ProjectPage deleteSuite(String name) {
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
         for (WebElement element : trash) {
@@ -198,7 +186,7 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    @Step("Validation that the suite does not exist anymore")
+    @Step("Validation that the suite {testSuite} does not exist anymore")
     public ProjectPage validateThatSuiteDoesNotExist(String testSuite) {
 
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);

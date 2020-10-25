@@ -3,6 +3,8 @@ package tests;
 import io.qameta.allure.Description;
 import models.TestSuite;
 import org.testng.annotations.Test;
+import models.TestCase;
+import utils.Retry;
 
 public class ProjectTest extends BaseTest {
 
@@ -22,8 +24,8 @@ public class ProjectTest extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .validateThatProjectIsOpened("Qase")
-                .clickOnNewSuiteCreatingButton(testSuite)
-                .addTestSiteParameters(testSuite)
+                .clickOnNewSuiteCreatingButton()
+                .addTestSuiteParameters(testSuite)
                 .clickOnSaveButton()
                 .refreshPage()
                 .validateThatNewSuiteIsCreated(testSuite.toString());
@@ -31,7 +33,13 @@ public class ProjectTest extends BaseTest {
 
     @Description("Delete new Suite Case")
     @Test
-    public void deleteSuiteCase(){
+    public void deleteSuiteCase() {
+        TestSuite testSuiteForDelete = TestSuite.builder()
+                .suiteName("Delete me")
+                .parentSuite("No parent suite")
+                .description("description")
+                .preconditions("preconditions")
+                .build();
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
@@ -39,14 +47,10 @@ public class ProjectTest extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .validateThatProjectIsOpened("Qase")
-                .deleteSuite("SUITENAME2")
+                .deleteSuite(testSuiteForDelete.getSuiteName())
                 .refreshPage()
-                .validateThatSuiteDoesNotExist("SUITENAME2");
-import models.TestCase;
-import org.testng.annotations.Test;
-import utils.Retry;
-
-public class ProjectTest extends BaseTest {
+                .validateThatSuiteDoesNotExist(testSuiteForDelete.getSuiteName());
+    }
 
     @Test(retryAnalyzer = Retry.class)
     public void createNewTestCase(){
@@ -74,7 +78,7 @@ public class ProjectTest extends BaseTest {
         projectPage
                 .clickOnNewCaseCreatingButton()
                 .addTestCaseParameters(testCase)
-                .clickOnSaveButton()
+                .clickOnSaveTestCaseButton()
                 .validateThatNewCaseIsCreated(testCase.getTitle());
     }
 
@@ -104,7 +108,7 @@ public class ProjectTest extends BaseTest {
         projectPage
                 .clickOnNewCaseCreatingButton()
                 .addTestCaseParameters(caseForDelete)
-                .clickOnSaveButton()
+                .clickOnSaveTestCaseButton()
                 .deleteTestCase(caseForDelete.getTitle())
                 .refreshPage()
                 .validateThatCaseDoesNotExist(caseForDelete.getTitle());
