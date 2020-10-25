@@ -6,8 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import static tests.BaseTest.URN;
-
 @Log4j2
 public class LoginPage extends BasePage {
     public static String URL = "login";
@@ -19,13 +17,13 @@ public class LoginPage extends BasePage {
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validation that the login page is opened")
     public LoginPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LOGIN_BUTTON));
         return this;
     }
 
-    @Step("Open web page")
+    @Step("Open login page")
     public LoginPage openPage() {
         driver.get(URN + URL);
         isPageOpened();
