@@ -5,13 +5,13 @@ import models.TestPlans;
 import org.testng.annotations.Test;
 
 
-public class TestPlansTests extends BaseTest{
+public class TestPlanTests extends BaseTest {
 
     @Description("Create New Test plan")
     @Test
-    public void createNewProject(){
-        TestPlans testPlans = TestPlans.builder()
-                .testPlanTitle("Test Plan for tests")
+    public void createNewTestPlan() {
+        TestPlans testPlan = TestPlans.builder()
+                .testPlanTitle("New Test Plan for tests")
                 .description("some description")
                 .build();
         loginPage
@@ -22,8 +22,8 @@ public class TestPlansTests extends BaseTest{
                 .openProject("Qase")
                 .goToTestPlanPage();
         testPlansPage
-                .createTestPlan()
-                .addTestPlanParameters(testPlans)
-                .validateThatTestPlanIsCreated();
+                .clickOnNewTestPlanCreatingButton()
+                .addTestPlanParameters(testPlan)
+                .validateThatTestPlanIsCreated(testPlan);
     }
 }

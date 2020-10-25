@@ -22,10 +22,11 @@ public class BaseTest {
     LoginPage loginPage;
     ProjectPage projectPage;
     ProjectsPage projectsPage;
-    TestPlansPage testPlansPage;
+    TestPlanPage testPlansPage;
     TestRunsPage testRunsPage;
     public final static String CORRECT_EMAIL = System.getenv("email");
     public final static String CORRECT_PASSWORD = System.getenv("password");
+
 
     @BeforeMethod
     public void openBrowser(ITestContext context) {
@@ -45,13 +46,13 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
-        testPlansPage = new TestPlansPage(driver);
+        testPlansPage = new TestPlanPage(driver);
         testRunsPage = new TestRunsPage(driver);
     }
 
     @AfterMethod(alwaysRun = true)
     public void closeBrowser() {
-        if(driver != null) {
+        if (driver != null) {
             driver.quit();
         }
     }

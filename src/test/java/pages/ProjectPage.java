@@ -204,8 +204,8 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    public TestPlansPage goToTestPlanPage(){
+    public TestPlanPage goToTestPlanPage(){
         driver.findElement(TEST_PLANS_PAGE).click();
-        return new TestPlansPage(driver);
+        return new TestPlanPage(driver);
     }
 }
