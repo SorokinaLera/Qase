@@ -25,7 +25,6 @@ public class TestPlansPage extends BasePage{
     }
 
     @Step("Validation that the test plan is opened")
-    //TODO как лучше step назвать и testPlan или testPlanS?
     public TestPlansPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(TEST_PLANS_PAGE_TITLE));
         return this;
