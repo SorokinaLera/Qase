@@ -10,6 +10,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.testng.Assert;
 
 import java.util.List;
 
@@ -25,6 +26,9 @@ public class TestPlanPage extends BasePage {
     public static final By CREATE_PLAN_BUTTON = By.xpath("//*[contains(text(),'Create plan')]");
     public static final By DONE_BUTTON = By.xpath("//*[contains(@class, 'btn btn-primary') and contains(text(), 'Done')]");
     public static final By LIST_OF_TEST_PLANS = By.xpath("//*[@class='project-row']//parent::a[@class='defect-title']");
+    public static final By TOGGLE_DELETE = By.xpath("//*[contains(text(),'Delete')]//ancestor::tr[@class='project-row']//a[@data-toggle='dropdown']/i");
+    public static final By DELETE_TEST_PLAN = By.xpath("//*[contains(text(),'Delete')]//ancestor::a[@class='text-danger']");
+    public static final By X_ON_DELETE_TEST_PLAN_BUTTON = By.cssSelector(".fa.fa-times-circle");
 
 
     public TestPlanPage(WebDriver driver) {
@@ -69,15 +73,47 @@ public class TestPlanPage extends BasePage {
         return this;
     }
 
-    public TestPlanPage validateThatTestPlanIsCreated(TestPlans testPlanName) {
+    public TestPlanPage validateThatTestPlanIsCreated(String testPlan) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
         for (WebElement element : list) {
-            String testSuiteName = element.getText();
-            log.info("Test suite: " + testSuiteName);
-            if (testSuiteName.equals(testPlanName.getTestPlanTitle())) {
-                log.info(String.format("Test suite '%s' is created", testPlanName.getTestPlanTitle()));
+            String testPlanName = element.getText();
+            log.info("Test plan: " + testPlanName);
+            if (testPlan.equals(testPlanName)) {
+                log.info(String.format("Test plan '%s' is created", testPlan));
             }
         }
+        return this;
+    }
+
+    public TestPlanPage deleteTestPlan(String testPlan) {
+        List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
+        for (WebElement element : list) {
+            String testPlanName = element.getText();
+            log.info("Test plan: " + testPlanName);
+            if (testPlan.equals(testPlanName)) {
+                driver.findElement(TOGGLE_DELETE).click();
+                driver.findElement(DELETE_TEST_PLAN).click();
+                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_PLAN_BUTTON));
+                driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
+                break;
+            }
+        }
+        return this;
+    }
+
+    @Step("Validation that the test plan {testPlan} does not exist anymore")
+    public TestPlanPage validateThatTestPlanDoesNotExist(String testPlan) {
+        List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
+        int count = 0;
+        for (WebElement element : list) {
+            String testPlanName = element.getText();
+            log.info("Test Plan: " + testPlanName);
+            if (testPlan.equals(testPlanName)) {
+                log.error(String.format("Test plan '%s' still exists", testPlanName));
+                count++;
+            }
+        }
+        Assert.assertEquals(count, 0);
         return this;
     }
 }
