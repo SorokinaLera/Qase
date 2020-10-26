@@ -15,11 +15,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 public class SuiteTest {
 
     @Test
-    public void getListOfSuits() throws FileNotFoundException {
+    public void getListOfSuits() {
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
@@ -98,34 +99,103 @@ public class SuiteTest {
 
     @Test
     public void updateSuit() {
-        String updatedData = "{\n" +
-                "    \"title\": \"Test suite title\",\n" +
+        String newSuite = "{\n" +
+                "    \"title\": \"Test suite\",\n" +
                 "    \"parent_id\": null,\n" +
                 "    \"description\": \"Suite description\",\n" +
                 "    \"preconditions\": \"Suite preconditions\"\n" +
                 "}";
+        String updatedData = "{\n" +
+                "    \"title\": \"Test suite\",\n" +
+                "    \"parent_id\": null,\n" +
+                "    \"description\": \"Updated suite description\",\n" +
+                "    \"preconditions\": \"Suite preconditions\"\n" +
+                "}";
+
+        Response response = given()
+                .header(HTTP.CONTENT_TYPE, "application/json")
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .body(newSuite)
+                .when()
+                .post("https://api.qase.io/v1/suite/QASE")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().response();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        Suite ourResponse = gson.fromJson(response.body().asString(), Suite.class);
+        int responseId = ourResponse.getResult().getId();
 
         given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
                 .body(updatedData)
                 .when()
-                .patch("https://api.qase.io/v1/suite/QASE/36")
+                .patch("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(200);
-    }
+        String updatedDescription = gson.fromJson(updatedData, SuiteDetails.class).getDescription();
 
-    @Test
-    public void deleteSuite() {
-        Response response = given()
+        Response getUpdatedSuite = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
                 .when()
-                .delete("https://api.qase.io/v1/suite/QASE/39")
+                .get("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(200)
                 .extract().response();
+        Suite checkingResponse = gson.fromJson(getUpdatedSuite.body().asString(), Suite.class);
+        String existedDescription = checkingResponse.getResult().getDescription();
+        Assert.assertEquals(updatedDescription, existedDescription, "The object was updated incorrectly");
+    }
+
+    @Test
+    public void deleteSuite() {
+        String newSuite = "{\n" +
+                "    \"title\": \"Test suite\",\n" +
+                "    \"parent_id\": null,\n" +
+                "    \"description\": \"Suite description\",\n" +
+                "    \"preconditions\": \"Suite preconditions\"\n" +
+                "}";
+
+        Response response = given()
+                .header(HTTP.CONTENT_TYPE, "application/json")
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .body(newSuite)
+                .when()
+                .post("https://api.qase.io/v1/suite/QASE")
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().response();
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        Suite ourResponse = gson.fromJson(response.body().asString(), Suite.class);
+        int responseId = ourResponse.getResult().getId();
+
+        given()
+                .header(HTTP.CONTENT_TYPE, "application/json")
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .when()
+                .delete("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().response();
+
+        given()
+                .header(HTTP.CONTENT_TYPE, "application/json")
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .when()
+                .get("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .then()
+                .log().body()
+                .statusCode(404)
+                .body("errorMessage", equalTo("Suite not found"));
     }
 }
