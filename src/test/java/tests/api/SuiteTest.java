@@ -23,7 +23,7 @@ public class SuiteTest {
     public void getListOfSuits() {
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .get("https://api.qase.io/v1/suite/DEMO")
                 .then()
@@ -39,7 +39,7 @@ public class SuiteTest {
     public void getSuiteById() throws FileNotFoundException {
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .get("https://api.qase.io/v1/suite/DEMO/11")
                 .then()
@@ -65,7 +65,7 @@ public class SuiteTest {
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
                 .post("https://api.qase.io/v1/suite/QASE")
@@ -82,7 +82,7 @@ public class SuiteTest {
 
         Response newResponse = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .get("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
@@ -111,7 +111,7 @@ public class SuiteTest {
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
                 .post("https://api.qase.io/v1/suite/QASE")
@@ -127,7 +127,7 @@ public class SuiteTest {
 
         given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .body(updatedData)
                 .when()
                 .patch("https://api.qase.io/v1/suite/QASE/" + responseId)
@@ -138,7 +138,7 @@ public class SuiteTest {
 
         Response getUpdatedSuite = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .get("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
@@ -161,7 +161,7 @@ public class SuiteTest {
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
                 .post("https://api.qase.io/v1/suite/QASE")
@@ -177,7 +177,7 @@ public class SuiteTest {
 
         given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .delete("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
@@ -186,7 +186,7 @@ public class SuiteTest {
 
         given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
+                .header("Token", System.getenv("token"))
                 .when()
                 .get("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
