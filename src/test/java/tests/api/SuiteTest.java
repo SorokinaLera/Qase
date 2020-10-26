@@ -3,11 +3,11 @@ package tests.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
+import models.TestSuite;
 import org.apache.http.protocol.HTTP;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.api.models.Suite;
-import tests.api.models.SuiteDetails;
 import tests.api.models.Suites;
 
 import java.io.File;
@@ -18,6 +18,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class SuiteTest {
+    private static final String URL = "https://api.qase.io/v1/suite/";
 
     @Test
     public void getListOfSuits() {
@@ -25,7 +26,7 @@ public class SuiteTest {
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .when()
-                .get("https://api.qase.io/v1/suite/DEMO")
+                .get(URL + "DEMO")
                 .then()
                 .log().body()
                 .statusCode(200)
@@ -41,7 +42,7 @@ public class SuiteTest {
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .when()
-                .get("https://api.qase.io/v1/suite/DEMO/11")
+                .get(URL + "DEMO/" + "11")
                 .then()
                 .log().body()
                 .statusCode(200)
@@ -56,29 +57,25 @@ public class SuiteTest {
 
     @Test
     public void createNewSuite() {
-        String newSuite = "{\n" +
-                "    \"title\": \"Test suite\",\n" +
-                "    \"parent_id\": null,\n" +
-                "    \"description\": \"Suite description\",\n" +
-                "    \"preconditions\": \"Suite preconditions\"\n" +
-                "}";
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        TestSuite newTestSuite = new TestSuite("Test", null,"bla", "bla");
+        String newSuite = gson.toJson(newTestSuite);
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
-                .post("https://api.qase.io/v1/suite/QASE")
+                .log().body()
+                .post(URL + "QASE")
                 .then()
                 .log().body()
                 .statusCode(200)
                 .extract().response();
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
         Suite ourResponse = gson.fromJson(response.body().asString(), Suite.class);
         int responseId = ourResponse.getResult().getId();
-        String createdTitle = gson.fromJson(newSuite, SuiteDetails.class).getTitle();
 
         Response newResponse = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
@@ -91,37 +88,29 @@ public class SuiteTest {
                 .extract().response();
         Suite checkingResponse = gson.fromJson(newResponse.body().asString(), Suite.class);
         String existedTitle = checkingResponse.getResult().getTitle();
-        Assert.assertEquals(createdTitle, existedTitle, "The object was created incorrectly");
+        Assert.assertEquals(newTestSuite.getSuiteName(), existedTitle, "The object was created incorrectly");
     }
 
     @Test
     public void updateSuit() {
-        String newSuite = "{\n" +
-                "    \"title\": \"Test suite\",\n" +
-                "    \"parent_id\": null,\n" +
-                "    \"description\": \"Suite description\",\n" +
-                "    \"preconditions\": \"Suite preconditions\"\n" +
-                "}";
-        String updatedData = "{\n" +
-                "    \"title\": \"Test suite\",\n" +
-                "    \"parent_id\": null,\n" +
-                "    \"description\": \"Updated suite description\",\n" +
-                "    \"preconditions\": \"Suite preconditions\"\n" +
-                "}";
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        TestSuite newTestSuite = new TestSuite("Test suite", null,"Suite description", "Suite preconditions");
+        String newSuite = gson.toJson(newTestSuite);
+        TestSuite updatedTestSuite = new TestSuite("Test suite", null, "Updated suite description", "Some preconditions");
+        String updatedData = gson.toJson(updatedTestSuite);
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
-                .post("https://api.qase.io/v1/suite/QASE")
+                .post(URL + "QASE")
                 .then()
                 .log().body()
                 .statusCode(200)
                 .extract().response();
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
         Suite ourResponse = gson.fromJson(response.body().asString(), Suite.class);
         int responseId = ourResponse.getResult().getId();
 
@@ -130,17 +119,17 @@ public class SuiteTest {
                 .header("Token", System.getenv("token"))
                 .body(updatedData)
                 .when()
-                .patch("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .patch(URL + "QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(200);
-        String updatedDescription = gson.fromJson(updatedData, SuiteDetails.class).getDescription();
+        String updatedDescription = updatedTestSuite.getDescription();
 
         Response getUpdatedSuite = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .when()
-                .get("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .get(URL + "QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(200)
@@ -152,26 +141,22 @@ public class SuiteTest {
 
     @Test
     public void deleteSuite() {
-        String newSuite = "{\n" +
-                "    \"title\": \"Test suite\",\n" +
-                "    \"parent_id\": null,\n" +
-                "    \"description\": \"Suite description\",\n" +
-                "    \"preconditions\": \"Suite preconditions\"\n" +
-                "}";
+        Gson gson = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        TestSuite newTestSuite = new TestSuite("Test suite", null,"Suite description", "Suite preconditions");
+        String newSuite = gson.toJson(newTestSuite);
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .body(newSuite)
                 .when()
-                .post("https://api.qase.io/v1/suite/QASE")
+                .post(URL + "QASE")
                 .then()
                 .log().body()
                 .statusCode(200)
                 .extract().response();
-        Gson gson = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
         Suite ourResponse = gson.fromJson(response.body().asString(), Suite.class);
         int responseId = ourResponse.getResult().getId();
 
@@ -179,7 +164,7 @@ public class SuiteTest {
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .when()
-                .delete("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .delete(URL + "QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(200);
@@ -188,7 +173,7 @@ public class SuiteTest {
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
                 .when()
-                .get("https://api.qase.io/v1/suite/QASE/" + responseId)
+                .get(URL + "QASE/" + responseId)
                 .then()
                 .log().body()
                 .statusCode(404)
