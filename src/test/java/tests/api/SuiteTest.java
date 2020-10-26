@@ -182,8 +182,7 @@ public class SuiteTest {
                 .delete("https://api.qase.io/v1/suite/QASE/" + responseId)
                 .then()
                 .log().body()
-                .statusCode(200)
-                .extract().response();
+                .statusCode(200);
 
         given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
