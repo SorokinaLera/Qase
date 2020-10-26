@@ -32,7 +32,6 @@ public class SuiteTest {
                 .extract().response();
         Gson gson = new Gson();
         Suites ourResponse = gson.fromJson(response.body().asString(), Suites.class);
-        System.out.println(ourResponse);
         Assert.assertEquals(ourResponse.getResult().getTotal(), 2, "List was changed, check your response body");
     }
 
@@ -92,8 +91,6 @@ public class SuiteTest {
                 .extract().response();
         Suite checkingResponse = gson.fromJson(newResponse.body().asString(), Suite.class);
         String existedTitle = checkingResponse.getResult().getTitle();
-        System.out.println(createdTitle);
-        System.out.println(existedTitle);
         Assert.assertEquals(createdTitle, existedTitle, "The object was created incorrectly");
     }
 
