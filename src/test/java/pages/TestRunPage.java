@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import java.util.List;
 
@@ -57,6 +56,7 @@ public class TestRunPage extends BasePage {
     @Step("Click button to create test run")
     public TestRunPage clickOnStartTestRunCreatingButton() {
         driver.findElement(START_TEST_RUN_BUTTON).click();
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(START_RUN_BUTTON));
         return this;
     }
 
@@ -64,7 +64,6 @@ public class TestRunPage extends BasePage {
     public TestRunPage addTestRunParameters(TestRun testRun) {
         driver.findElement(RUN_TITLE_FIELD).clear();
         new Input(driver, "Run title").write(testRun.getTestRunTitle());
-        wait = new WebDriverWait(driver, 5);
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testRun.getDescription());
         new PlanSelect(driver, "Plan").select(testRun.getPlan());
         new PlanSelect(driver, "Environment").select(testRun.getEnvironment());

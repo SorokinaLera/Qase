@@ -35,6 +35,7 @@ public class ProjectPage extends BasePage {
     public static final By TEST_SUITE_NAME_TITLE = By.cssSelector(".suite-header");
     public static final By TEST_PLANS_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Plans')]");
     public static final By TEST_RUN_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Runs')]");
+    public static final By START_RUN_BUTTON = By.xpath("//*[contains(@class, 'btn btn-primary') and contains(text(),'Start run')]");
 
 
     public ProjectPage(WebDriver driver) {
