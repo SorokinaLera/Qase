@@ -36,6 +36,9 @@ jobs:
           name: Get chrome version
           command: google-chrome --version
       - run:
+          name: Setting chmod for Chrome
+          command: chmod 777 src/test/resources/webdrivers/linux/chromedriver
+      - run:
           name: Running tests
           command: mvn clean install
       - run:
