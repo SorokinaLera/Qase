@@ -13,7 +13,7 @@ public class ProjectTest extends BaseTest {
     public void createNewSuiteCase(){
         TestSuite testSuite = TestSuite.builder()
                 .suiteName("SUITENAME2")
-                .parentSuite("No parent suite")
+                .parent("No parent suite")
                 .description("description")
                 .preconditions("preconditions")
                 .build();
@@ -36,7 +36,7 @@ public class ProjectTest extends BaseTest {
     public void deleteSuiteCase() {
         TestSuite testSuiteForDelete = TestSuite.builder()
                 .suiteName("Delete me")
-                .parentSuite("No parent suite")
+                .parent("No parent suite")
                 .description("description")
                 .preconditions("preconditions")
                 .build();
@@ -82,7 +82,7 @@ public class ProjectTest extends BaseTest {
                 .validateThatNewCaseIsCreated(testCase.getTitle());
     }
 
-    @Test(retryAnalyzer =Retry.class)
+    @Test(retryAnalyzer = Retry.class)
     public void deleteTestCase(){
         TestCase caseForDelete = TestCase.builder()
                 .title("Delete it")
