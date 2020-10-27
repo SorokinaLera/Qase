@@ -56,7 +56,7 @@ public class TestRunPage extends BasePage {
     @Step("Click button to create test run")
     public TestRunPage clickOnStartTestRunCreatingButton() {
         driver.findElement(START_TEST_RUN_BUTTON).click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(START_RUN_BUTTON));
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DESCRIPTION_FIELD));
         return this;
     }
 
@@ -64,6 +64,7 @@ public class TestRunPage extends BasePage {
     public TestRunPage addTestRunParameters(TestRun testRun) {
         driver.findElement(RUN_TITLE_FIELD).clear();
         new Input(driver, "Run title").write(testRun.getTestRunTitle());
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DESCRIPTION_FIELD));
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testRun.getDescription());
         new PlanSelect(driver, "Plan").select(testRun.getPlan());
         new PlanSelect(driver, "Environment").select(testRun.getEnvironment());
