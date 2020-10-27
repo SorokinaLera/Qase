@@ -67,6 +67,9 @@ public class TestPlanPage extends BasePage {
     @Step("Setting parameters for a new test plan")
     public TestPlanPage addTestPlanParameters(TestPlan testPlanName) {
         new Input(driver, "Title").write(testPlanName.getTestPlanTitle());
+        List<WebElement> list = driver.findElements(DESCRIPTION_FIELD);
+        int descriptionFields = list.size();
+        log.info("number of description fields: " + descriptionFields);
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testPlanName.getDescription());
         driver.findElement(ADD_CASES_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SELECT_TEST_CASES_TITLE));
