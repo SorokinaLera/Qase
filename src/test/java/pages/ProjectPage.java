@@ -34,8 +34,10 @@ public class ProjectPage extends BasePage {
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
     public static final By TEST_SUITE_NAME_TITLE = By.cssSelector(".suite-header");
     public static final By TEST_PLANS_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Plans')]");
+    public static final By TEST_RUN_PAGE = By.xpath("//*[contains(@class, 'submenu-item-text') and contains(text(),'Test Runs')]");
 
-    public ProjectPage (WebDriver driver){
+
+    public ProjectPage(WebDriver driver) {
         super(driver);
     }
 
@@ -53,13 +55,13 @@ public class ProjectPage extends BasePage {
     }
 
     @Step("Click button to create test case")
-    public ProjectPage clickOnNewCaseCreatingButton(){
+    public ProjectPage clickOnNewCaseCreatingButton() {
         driver.findElement(CREATE_NEW_CASE_BUTTON).click();
         return this;
     }
 
     @Step("Setting parameters for a new test case")
-    public ProjectPage addTestCaseParameters(TestCase testCase){
+    public ProjectPage addTestCaseParameters(TestCase testCase) {
         new Input(driver, "Title").write(testCase.getTitle());
         new Input(driver, "Description").write(testCase.getDescription());
         new Select(driver, "Status").select(testCase.getStatus());
@@ -76,7 +78,7 @@ public class ProjectPage extends BasePage {
     }
 
     @Step("Click on \"Save\" button")
-    public ProjectPage clickOnSaveTestCaseButton(){
+    public ProjectPage clickOnSaveTestCaseButton() {
         driver.findElement(SAVE_NEW_TEST_CASE_BUTTON).click();
         return this;
     }
@@ -96,7 +98,7 @@ public class ProjectPage extends BasePage {
     @Step("Delete test case \"{testCase}\"")
     public ProjectPage deleteTestCase(String testCase) {
         List<WebElement> testCases = driver.findElements(TEST_CASE);
-        for (WebElement element: testCases) {
+        for (WebElement element : testCases) {
             String testCaseName = element.getText();
             log.info("Test case: " + testCaseName);
             if (testCaseName.equals(testCase)) {
@@ -114,7 +116,7 @@ public class ProjectPage extends BasePage {
 
         List<WebElement> testCases = driver.findElements(TEST_CASE);
         int count = 0;
-        for (WebElement element: testCases) {
+        for (WebElement element : testCases) {
             String testCaseName = element.getText();
             log.info("Test case: " + testCaseName);
             if (testCaseName.equals(testCase)) {
@@ -126,6 +128,7 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
+    @Step("Validation that project is opened")
     public ProjectPage validateThatProjectIsOpened(String projectName) {
         assertEquals(driver.findElement(By.cssSelector(PROJECT_NAME)).getText(), projectName.toUpperCase());
         return this;
@@ -204,8 +207,13 @@ public class ProjectPage extends BasePage {
         return this;
     }
 
-    public TestPlanPage goToTestPlanPage(){
+    public TestPlanPage goToTestPlanPage() {
         driver.findElement(TEST_PLANS_PAGE).click();
         return new TestPlanPage(driver);
+    }
+
+    public TestRunPage goToTestRunPage() {
+        driver.findElement(TEST_RUN_PAGE).click();
+        return new TestRunPage(driver);
     }
 }

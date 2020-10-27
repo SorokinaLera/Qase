@@ -23,7 +23,7 @@ public class BaseTest {
     ProjectPage projectPage;
     ProjectsPage projectsPage;
     TestPlanPage testPlansPage;
-    TestRunsPage testRunsPage;
+    TestRunPage testRunPage;
     public final static String CORRECT_EMAIL = System.getenv("email");
     public final static String CORRECT_PASSWORD = System.getenv("password");
 
@@ -47,7 +47,7 @@ public class BaseTest {
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
         testPlansPage = new TestPlanPage(driver);
-        testRunsPage = new TestRunsPage(driver);
+        testRunPage = new TestRunPage(driver);
     }
 
     @AfterMethod(alwaysRun = true)

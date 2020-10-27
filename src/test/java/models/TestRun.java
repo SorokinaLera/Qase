@@ -8,7 +8,10 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 
-public class TestPlans {
-    String testPlanTitle;
+public class TestRun {
+    String testRunTitle;
     String description;
+    String plan;
+    String environment;
+    String milestone;
 }

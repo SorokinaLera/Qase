@@ -3,7 +3,7 @@ package pages;
 import elements.Input;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
-import models.TestPlans;
+import models.TestPlan;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +18,7 @@ import java.util.List;
 
 public class TestPlanPage extends BasePage {
     public static String URL = "plan/";
+    public static String testPlanName = "//*[(@class= 'defect-title') and contains(text(),'%s')]";
     public static final By TEST_PLANS_PAGE_TITLE = By.xpath("//*[@id='react-app']//h1[contains(text(),'Test plans')]");
     public static final By CREATE_TEST_PLAN_BUTTON = By.xpath("//*[contains(@class, 'btn btn btn-primary') and contains(text(),'Create')]");
     public static final By ADD_CASES_BUTTON = By.xpath("//*[contains(@class, 'btn btn-invisible b-0 ml-0 mr-3') and contains(text(),' Add cases')]//i[@class='fa fa-plus-circle']");
@@ -29,6 +30,9 @@ public class TestPlanPage extends BasePage {
     public static final By TOGGLE_DELETE = By.xpath("//*[contains(text(),'Delete')]//ancestor::tr[@class='project-row']//a[@data-toggle='dropdown']/i");
     public static final By DELETE_TEST_PLAN = By.xpath("//*[contains(text(),'Delete')]//ancestor::a[@class='text-danger']");
     public static final By X_ON_DELETE_TEST_PLAN_BUTTON = By.cssSelector(".fa.fa-times-circle");
+    public static final By DESCRIPTION_FIELD = By.xpath("//*[@id='undefinedGroup']/parent::div//*[contains(@class, 'empty-node')]");
+    public static final By EDIT_PAGE_DESCRIPTION_FIELD = By.xpath("//*[@id='undefinedGroup']/parent::div//*[contains(@class, 'ProseMirror')]");
+
 
 
     public TestPlanPage(WebDriver driver) {
@@ -48,18 +52,22 @@ public class TestPlanPage extends BasePage {
         return this;
     }
 
+    @Step("")
     public TestPlanPage refreshPage() {
         driver.navigate().refresh();
         return this;
     }
 
+    @Step("Click button to create test plan")
     public TestPlanPage clickOnNewTestPlanCreatingButton() {
         driver.findElement(CREATE_TEST_PLAN_BUTTON).click();
         return this;
     }
 
-    public TestPlanPage addTestPlanParameters(TestPlans testPlanName) {
+    @Step("Setting parameters for a new test plan")
+    public TestPlanPage addTestPlanParameters(TestPlan testPlanName) {
         new Input(driver, "Title").write(testPlanName.getTestPlanTitle());
+        driver.findElement(DESCRIPTION_FIELD).sendKeys(testPlanName.getDescription());
         driver.findElement(ADD_CASES_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SELECT_TEST_CASES_TITLE));
         WebElement icon = driver.findElement(SELECT_TEST_CASES_CHECKBOX);
@@ -73,7 +81,8 @@ public class TestPlanPage extends BasePage {
         return this;
     }
 
-    public TestPlanPage validateThatTestPlanIsCreated(String testPlan) {
+    @Step("Validation that new test plan is created")
+    public TestPlanPage validateThatTestPlanIsCreated(TestPlan testPlan) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
         for (WebElement element : list) {
             String testPlanName = element.getText();
@@ -85,6 +94,7 @@ public class TestPlanPage extends BasePage {
         return this;
     }
 
+    @Step("Delete test plan {testPlan}")
     public TestPlanPage deleteTestPlan(String testPlan) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
         for (WebElement element : list) {
@@ -102,7 +112,7 @@ public class TestPlanPage extends BasePage {
     }
 
     @Step("Validation that the test plan {testPlan} does not exist anymore")
-    public TestPlanPage validateThatTestPlanDoesNotExist(String testPlan) {
+    public TestPlanPage validateThatTestPlanDoesNotExist(TestPlan testPlan) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_PLANS);
         int count = 0;
         for (WebElement element : list) {
@@ -114,6 +124,14 @@ public class TestPlanPage extends BasePage {
             }
         }
         Assert.assertEquals(count, 0);
+        return this;
+    }
+
+    public TestPlanPage checkDataInTheCreatedTestPlan(String name, TestPlan testPlan) {
+        driver.findElement(By.xpath(String.format(testPlanName, name))).click();
+        String planDescription = driver.findElement(EDIT_PAGE_DESCRIPTION_FIELD).getText();
+        String objectDescription = testPlan.getDescription();
+        Assert.assertEquals(planDescription, objectDescription);
         return this;
     }
 }
