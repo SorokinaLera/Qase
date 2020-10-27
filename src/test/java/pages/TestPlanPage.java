@@ -5,6 +5,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import models.TestPlan;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Action;
@@ -70,6 +71,11 @@ public class TestPlanPage extends BasePage {
         List<WebElement> list = driver.findElements(DESCRIPTION_FIELD);
         int descriptionFields = list.size();
         log.info("number of description fields: " + descriptionFields);
+
+        WebElement element = driver.findElement(DESCRIPTION_FIELD);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", element);
+
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testPlanName.getDescription());
         driver.findElement(ADD_CASES_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SELECT_TEST_CASES_TITLE));
