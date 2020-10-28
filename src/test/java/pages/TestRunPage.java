@@ -6,6 +6,7 @@ import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 import models.TestRun;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -67,7 +68,9 @@ public class TestRunPage extends BasePage {
         new PlanSelect(driver, "Plan").select(testRun.getPlan());
         new PlanSelect(driver, "Environment").select(testRun.getEnvironment());
         new PlanSelect(driver, "Milestone").select(testRun.getMilestone());
-        driver.findElement(START_RUN_BUTTON).click();
+        WebElement saveButton = driver.findElement(START_RUN_BUTTON);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", saveButton);
         return this;
     }
 
