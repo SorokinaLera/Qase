@@ -53,7 +53,7 @@ public class TestRunTests extends BaseTest {
 
     @Description("Delete Test Run")
     @Test
-    public void deleteTestPlan() {
+    public void deleteTestRun() {
         TestRun testRun = TestRun.builder()
                 .testRunTitle("Some Title for delete.Again1")
                 .description("some description")
@@ -77,7 +77,7 @@ public class TestRunTests extends BaseTest {
     }
 
     @Test
-    public void deleteAllTestPlans() {
+    public void deleteAllTestRuns() {
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
