@@ -10,7 +10,7 @@ public class TestRunTests extends BaseTest {
     @Test
     public void createNewTestRun() {
         TestRun testRun = TestRun.builder()
-                .testRunTitle("Some Title")
+                .testRunTitle(":(")
                 .description("some description")
                 .plan("New")
                 .environment("")

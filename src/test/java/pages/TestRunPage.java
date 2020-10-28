@@ -31,7 +31,6 @@ public class TestRunPage extends BasePage {
     public static final By TEST_RUN_DESCRIPTION = By.cssSelector(".run-description");
 
 
-
     public TestRunPage(WebDriver driver) {
         super(driver);
     }

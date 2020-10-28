@@ -8,9 +8,9 @@ import lombok.extern.log4j.Log4j2;
 import models.TestCase;
 import models.TestSuite;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
@@ -181,8 +181,8 @@ public class ProjectPage extends BasePage {
             log.info("Test suite: " + testSuiteName);
             if (testSuiteName.equals(name)) {
                 WebElement trashBinIconElement = driver.findElement(TRASH_BIN_BUTTON);
-                Actions actions = new Actions(driver);
-                actions.moveToElement(trashBinIconElement).click().perform();
+                JavascriptExecutor executor = (JavascriptExecutor)driver;
+                executor.executeScript("arguments[0].click();", trashBinIconElement);
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DELETE_SUITE_BUTTON));
                 driver.findElement(DELETE_SUITE_BUTTON).click();
                 log.info(String.format("Test suite '%s' was deleted", testSuiteName));

@@ -8,8 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Action;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 
@@ -68,22 +66,12 @@ public class TestPlanPage extends BasePage {
     @Step("Setting parameters for a new test plan")
     public TestPlanPage addTestPlanParameters(TestPlan testPlanName) {
         new Input(driver, "Title").write(testPlanName.getTestPlanTitle());
-        List<WebElement> list = driver.findElements(DESCRIPTION_FIELD);
-        int descriptionFields = list.size();
-        log.info("number of description fields: " + descriptionFields);
-
-        WebElement element = driver.findElement(DESCRIPTION_FIELD);
-        JavascriptExecutor executor = (JavascriptExecutor)driver;
-        executor.executeScript("arguments[0].click();", element);
-
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testPlanName.getDescription());
         driver.findElement(ADD_CASES_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SELECT_TEST_CASES_TITLE));
-        WebElement icon = driver.findElement(SELECT_TEST_CASES_CHECKBOX);
-        Actions ob = new Actions(driver);
-        ob.click(icon);
-        Action action = ob.build();
-        action.perform();
+        WebElement saveButton = driver.findElement(SELECT_TEST_CASES_CHECKBOX);
+        JavascriptExecutor executor = (JavascriptExecutor)driver;
+        executor.executeScript("arguments[0].click();", saveButton);
         driver.findElement(DONE_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(CREATE_PLAN_BUTTON));
         driver.findElement(CREATE_PLAN_BUTTON).click();
