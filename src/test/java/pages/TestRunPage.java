@@ -84,7 +84,7 @@ public class TestRunPage extends BasePage {
             String runName = driver.findElement(LIST_OF_TEST_RUNS).getText();
             if (runName.equals(testRunName)) {
                 condition = true;
-                log.info(String.format("Test run \"%s\" is created"), testRunName);
+                log.info("Test run " + testRunName +" is created");
             }
         }
         return condition;
