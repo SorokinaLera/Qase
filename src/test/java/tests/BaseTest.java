@@ -29,7 +29,6 @@ public class BaseTest {
     public final static String CORRECT_EMAIL = System.getenv("email");
     public final static String CORRECT_PASSWORD = System.getenv("password");
 
-
     @BeforeMethod
     public void openBrowser(ITestContext context) {
 

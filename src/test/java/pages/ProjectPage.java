@@ -21,6 +21,7 @@ import static org.testng.Assert.assertEquals;
 @Log4j2
 public class ProjectPage extends BasePage {
     public static String URL = "project/";
+    public static String trashBinButton = "//*[@class = 'suite-header' and contains(text(), '%s')]//ancestor::*[@class='suite-block']//*[@class='fa fa-trash']";
     public static final By PROJECT_NAME = By.cssSelector(".subheader");
     public static final By TEST_REPOSITORY_PAGE_TITLE = By.xpath("//*[contains(text(),'Test repository')]");
     public static final By TEST_PLANS_PAGE = By.xpath("//*[contains(text(),'Test Plans')]");
@@ -30,7 +31,6 @@ public class ProjectPage extends BasePage {
     public static final By TEST_CASE = By.cssSelector(".case-row-title");
     public static final By DELETE_TEST_CASE_BUTTON = By.cssSelector("button[title='Delete case']");
     public static final By DELETE_CONFIRMATION_BUTTON = By.xpath("//button[contains(@class, 'btn-danger') and contains(text(),'Delete')]");
-    public static final By TRASH_BIN_BUTTON = By.xpath("//*[@class='fa fa-trash']");
     public static final By ADD_SUITE_BUTTON = By.cssSelector(".btn.mr-3.btn-primary");
     public static final By CONFIRM_CREATING_SUITE_BUTTON = By.id("saveButton");
     public static final By DELETE_SUITE_BUTTON = By.xpath("//*[contains(text(),'Delete suite')]");
@@ -38,6 +38,25 @@ public class ProjectPage extends BasePage {
 
     public ProjectPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Step("Delete test suite \"{name}\"")
+    public ProjectPage deleteSuite(String name) {
+        List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
+        for (WebElement element : trash) {
+            String testSuiteName = element.getText();
+            log.info("Existing suite: " + testSuiteName);
+            if (testSuiteName.equals(name)) {
+                WebElement trashBinIconElement = driver.findElement(By.xpath(String.format(trashBinButton, name)));
+                Actions actions = new Actions(driver);
+                actions.moveToElement(trashBinIconElement).click().perform();
+                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DELETE_SUITE_BUTTON));
+                driver.findElement(DELETE_SUITE_BUTTON).click();
+                log.info(String.format("Test suite '%s' was deleted", testSuiteName));
+                break;
+            }
+        }
+        return this;
     }
 
     @Step("Validation that the project is opened")
@@ -182,23 +201,6 @@ public class ProjectPage extends BasePage {
             }
         }
         return condition;
-    }
-
-    @Step("Delete test suite \"{name}\"")
-    public ProjectPage deleteSuite(String name) {
-        List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
-        for (WebElement element : trash) {
-            String testSuiteName = element.getText();
-            if (testSuiteName.equals(name)) {
-                WebElement trashBinIconElement = driver.findElement(TRASH_BIN_BUTTON);
-                Actions actions = new Actions(driver);
-                actions.moveToElement(trashBinIconElement).click().perform();
-                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DELETE_SUITE_BUTTON));
-                driver.findElement(DELETE_SUITE_BUTTON).click();
-                log.info(String.format("Test suite '%s' was deleted", testSuiteName));
-            }
-        }
-        return this;
     }
 
     @Step("Validation that the test suite \"{testSuite}\" does not exist anymore")

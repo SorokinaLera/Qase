@@ -3,11 +3,12 @@ package tests;
 import io.qameta.allure.Description;
 import models.TestRun;
 import org.testng.annotations.Test;
+import utils.Retry;
 
 public class TestRunTests extends BaseTest {
 
     @Description("Start new test run")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void createNewTestRun() {
         TestRun testRun = TestRun.builder()
                 .testRunTitle(faker.friends().character())
@@ -29,7 +30,7 @@ public class TestRunTests extends BaseTest {
     }
 
     @Description("Checking the information about created test run")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void runNewTestRun() {
         TestRun testRun = TestRun.builder()
                 .testRunTitle(faker.name().title())
@@ -53,7 +54,7 @@ public class TestRunTests extends BaseTest {
     }
 
     @Description("Delete test run")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void deleteTestPlan() {
         TestRun testRun = TestRun.builder()
                 .testRunTitle(faker.harryPotter().character())

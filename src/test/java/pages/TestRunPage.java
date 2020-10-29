@@ -14,7 +14,6 @@ import org.testng.Assert;
 
 import java.util.List;
 
-import static pages.TestPlanPage.TOGGLE_DELETE;
 import static pages.TestPlanPage.X_ON_DELETE_TEST_PLAN_BUTTON;
 
 @Log4j2
@@ -22,6 +21,7 @@ import static pages.TestPlanPage.X_ON_DELETE_TEST_PLAN_BUTTON;
 public class TestRunPage extends BasePage {
     public static String URL = "run/";
     public static String testRunName = "//*[(@class= 'defect-title') and contains(text(),'%s')]";
+    public static String toggle = " //*[@class = 'defect-title' and contains(text(), '%s')]//ancestor::*[@class='project-row']//*[@class='fa fa-ellipsis-h']";
     public static final By TEST_RUN_PAGE_TITLE = By.xpath("//*[@id='react-app']//h1[contains(text(),'Test runs')]");
     public static final By START_TEST_RUN_BUTTON = By.xpath("//*[contains(@class, 'btn btn-primary') and contains(text(),'Start new test run')]");
     public static final By START_RUN_BUTTON = By.xpath("//*[contains(@class, 'btn btn-primary') and contains(text(),'Start run')]");
@@ -31,11 +31,27 @@ public class TestRunPage extends BasePage {
     public static final By X_ON_DELETE_TEST_RUN_BUTTON = By.cssSelector(".fa.fa-times-circle");
     public static final By RUN_TITLE_FIELD = By.xpath("//*[@id='title']");
     public static final By TEST_RUN_DESCRIPTION = By.cssSelector(".run-description");
-
-
+    public static final  By DROPDOWN = By.cssSelector("fa.fa-ellipsis-h");
 
     public TestRunPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Step("Delete test run \"{testRun}\"")
+    public TestRunPage deleteTestRun(String testRun) {
+        List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
+        for (WebElement element : list) {
+            String testRunName = element.getText();
+            log.info("Existing test run: " + testRunName);
+            if (testRun.equals(testRunName)) {
+                driver.findElement(By.xpath(String.format(toggle, testRun))).click();
+                driver.findElement(DELETE_TEST_RUN).click();
+                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
+                driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
+                break;
+            }
+        }
+        return this;
     }
 
     @Step("Validation that the Test Run page is opened")
@@ -90,23 +106,6 @@ public class TestRunPage extends BasePage {
         return condition;
     }
 
-    @Step("Delete test run \"{testRun}\"")
-    public TestRunPage deleteTestRun(String testRun) {
-        List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
-        for (WebElement element : list) {
-            String testRunName = element.getText();
-            log.info("Test run: " + testRunName);
-            if (testRun.equals(testRunName)) {
-                driver.findElement(TOGGLE_DELETE).click();
-                driver.findElement(DELETE_TEST_RUN).click();
-                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
-                driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
-                break;
-            }
-        }
-        return this;
-    }
-
     @Step("Validation that the test run \"{testRun}\" does not exist anymore")
     public TestRunPage validateThatTestRunDoesNotExist(String testRun) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
@@ -125,7 +124,7 @@ public class TestRunPage extends BasePage {
     public TestRunPage deleteAll() {
         List <WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         if (list.size() != 0) {
-                driver.findElement(TOGGLE_DELETE).click();
+                driver.findElement(DROPDOWN).click();
                 driver.findElement(DELETE_TEST_RUN).click();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
                 driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
