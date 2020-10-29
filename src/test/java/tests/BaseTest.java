@@ -1,5 +1,6 @@
 package tests;
 
+import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
@@ -22,8 +23,9 @@ public class BaseTest {
     LoginPage loginPage;
     ProjectPage projectPage;
     ProjectsPage projectsPage;
-    TestPlanPage testPlansPage;
+    TestPlanPage testPlanPage;
     TestRunPage testRunPage;
+    Faker faker;
     public final static String CORRECT_EMAIL = System.getenv("email");
     public final static String CORRECT_PASSWORD = System.getenv("password");
 
@@ -46,8 +48,9 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         projectPage = new ProjectPage(driver);
         projectsPage = new ProjectsPage(driver);
-        testPlansPage = new TestPlanPage(driver);
+        testPlanPage = new TestPlanPage(driver);
         testRunPage = new TestRunPage(driver);
+        faker = new Faker();
     }
 
     @AfterMethod(alwaysRun = true)

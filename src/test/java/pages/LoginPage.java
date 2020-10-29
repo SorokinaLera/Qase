@@ -29,9 +29,9 @@ public class LoginPage extends BasePage {
         isPageOpened();
         return this;
     }
-    @Step("Login using correct data")
+    @Step("Login using correct credentials")
     public ProjectsPage login(String email, String password){
-        log.info("Logging with Email: " + email + " Password: " + password);
+        log.info("Login with Email: " + email + " Password: " + password);
         driver.findElement(EMAIL).sendKeys(email);
         driver.findElement(PASSWORD).sendKeys(password);
         driver.findElement(LOGIN_BUTTON).click();

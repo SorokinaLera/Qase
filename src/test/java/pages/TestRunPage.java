@@ -11,9 +11,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
+
 import java.util.List;
 
-import static pages.TestPlanPage.*;
+import static pages.TestPlanPage.TOGGLE_DELETE;
+import static pages.TestPlanPage.X_ON_DELETE_TEST_PLAN_BUTTON;
 
 @Log4j2
 
@@ -31,17 +33,18 @@ public class TestRunPage extends BasePage {
     public static final By TEST_RUN_DESCRIPTION = By.cssSelector(".run-description");
 
 
+
     public TestRunPage(WebDriver driver) {
         super(driver);
     }
 
-    @Step("Validation that the web page is opened")
+    @Step("Validation that the Test Run page is opened")
     public TestRunPage isPageOpened() {
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(TEST_RUN_PAGE_TITLE));
         return this;
     }
 
-    @Step("Open page with testPlan page project")
+    @Step("Open Test Run page")
     public TestRunPage openPage(String projectName) {
         driver.get(URN + URL + projectName);
         isPageOpened();
@@ -53,18 +56,16 @@ public class TestRunPage extends BasePage {
         return this;
     }
 
-    @Step("Click button to create test run")
+    @Step("Click on \"Start new test run\" button")
     public TestRunPage clickOnStartTestRunCreatingButton() {
         driver.findElement(START_TEST_RUN_BUTTON).click();
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DESCRIPTION_FIELD));
         return this;
     }
 
-    @Step("Setting parameters for a new test run")
+    @Step("Setting parameters for the new test run")
     public TestRunPage addTestRunParameters(TestRun testRun) {
         driver.findElement(RUN_TITLE_FIELD).clear();
         new Input(driver, "Run title").write(testRun.getTestRunTitle());
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(DESCRIPTION_FIELD));
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testRun.getDescription());
         new PlanSelect(driver, "Plan").select(testRun.getPlan());
         new PlanSelect(driver, "Environment").select(testRun.getEnvironment());
@@ -72,23 +73,24 @@ public class TestRunPage extends BasePage {
         WebElement saveButton = driver.findElement(START_RUN_BUTTON);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click();", saveButton);
+        log.info(String.format("New test run is: %s", testRun.getTestRunTitle()));
         return this;
     }
 
-    @Step("Validation that new test run is created")
-    public TestRunPage validateThatTestRunIsCreated(TestRun testRun) {
-        List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
-        for (WebElement element : list) {
-            String testRunName = element.getText();
-            log.info("Test run: " + testRunName);
-            if (testRun.equals(testRunName)) {
-                log.info(String.format("Test run '%s' is created", testRun));
+    @Step("Validation that new test run \"{testRunName}\" is created")
+    public boolean validateThatTestRunIsCreated(String testRunName) {
+        boolean condition = false;
+        for (int i = 0; i <= driver.findElements(LIST_OF_TEST_RUNS).size(); i++) {
+            String runName = driver.findElement(LIST_OF_TEST_RUNS).getText();
+            if (runName.equals(testRunName)) {
+                condition = true;
+                log.info(String.format("Test run \"%s\" is created"), testRunName);
             }
         }
-        return this;
+        return condition;
     }
 
-    @Step("Delete test run {testRun}")
+    @Step("Delete test run \"{testRun}\"")
     public TestRunPage deleteTestRun(String testRun) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         for (WebElement element : list) {
@@ -105,13 +107,12 @@ public class TestRunPage extends BasePage {
         return this;
     }
 
-    @Step("Validation that the test run {testRun} does not exist anymore")
+    @Step("Validation that the test run \"{testRun}\" does not exist anymore")
     public TestRunPage validateThatTestRunDoesNotExist(String testRun) {
         List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         int count = 0;
         for (WebElement element : list) {
             String testRunName = element.getText();
-            log.info("Test Plan: " + testRunName);
             if (testRun.equals(testRunName)) {
                 log.error(String.format("Test run '%s' still exists", testRunName));
                 count++;
@@ -124,16 +125,11 @@ public class TestRunPage extends BasePage {
     public TestRunPage deleteAll() {
         List <WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         if (list.size() != 0) {
-            for (WebElement element : list) {
-                String testRunName = element.getText();
-                log.info("Test run: " + testRunName);
                 driver.findElement(TOGGLE_DELETE).click();
                 driver.findElement(DELETE_TEST_RUN).click();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
                 driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
                 refreshPage();
-                break;
-            }
         } else {
             return this;
         }
@@ -141,11 +137,12 @@ public class TestRunPage extends BasePage {
         return this;
     }
 
-    public TestRunPage checkDataInTheCreatedTestRun(String name, TestRun testRun) {
+    @Step("Validation that information in the test run \"{name}\" is correct")
+    public TestRunPage checkDataInTheCreatedTestRun(String name, String description) {
         driver.findElement(By.xpath(String.format(testRunName, name))).click();
         String runDescription = driver.findElement(TEST_RUN_DESCRIPTION).getText();
-        String objectDescription = testRun.getDescription();
-        Assert.assertEquals(runDescription, objectDescription);
+        log.info(String.format("Our description: %s", runDescription));
+        Assert.assertEquals(runDescription, description);
         return this;
     }
 }

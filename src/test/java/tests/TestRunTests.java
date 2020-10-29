@@ -6,12 +6,12 @@ import org.testng.annotations.Test;
 
 public class TestRunTests extends BaseTest {
 
-    @Description("Start New Test Run")
+    @Description("Start new test run")
     @Test
     public void createNewTestRun() {
         TestRun testRun = TestRun.builder()
-                .testRunTitle(":(")
-                .description("some description")
+                .testRunTitle(faker.friends().character())
+                .description(faker.friends().quote())
                 .plan("New")
                 .environment("")
                 .milestone("")
@@ -25,59 +25,19 @@ public class TestRunTests extends BaseTest {
                 .goToTestRunPage();
         testRunPage.clickOnStartTestRunCreatingButton()
                 .addTestRunParameters(testRun)
-                .validateThatTestRunIsCreated(testRun);
+                .validateThatTestRunIsCreated(testRun.getTestRunTitle());
     }
 
-    @Description("**")
+    @Description("Checking the information about created test run")
     @Test
     public void runNewTestRun() {
         TestRun testRun = TestRun.builder()
-                .testRunTitle("Some Title")
-                .description("some description")
+                .testRunTitle(faker.name().title())
+                .description(faker.chuckNorris().fact())
                 .plan("New")
                 .environment("")
                 .milestone("")
                 .build();
-        loginPage
-                .openPage()
-                .login(CORRECT_EMAIL, CORRECT_PASSWORD)
-                .isPageOpened();
-        projectsPage
-                .openProject("Qase")
-                .goToTestRunPage();
-        testRunPage.clickOnStartTestRunCreatingButton()
-                .addTestRunParameters(testRun)
-                .checkDataInTheCreatedTestRun("Some Title", testRun);
-
-    }
-
-    @Description("Delete Test Run")
-    @Test
-    public void deleteTestPlan() {
-        TestRun testRun = TestRun.builder()
-                .testRunTitle("Some Title for delete.Again1")
-                .description("some description")
-                .plan("New")
-                .environment("")
-                .milestone("")
-                .build();
-        loginPage
-                .openPage()
-                .login(CORRECT_EMAIL, CORRECT_PASSWORD)
-                .isPageOpened();
-        projectsPage
-                .openProject("Qase")
-                .goToTestRunPage();
-        testRunPage.clickOnStartTestRunCreatingButton()
-                .addTestRunParameters(testRun)
-                .validateThatTestRunIsCreated(testRun)
-                .deleteTestRun(testRun.getTestRunTitle())
-                .refreshPage()
-                .validateThatTestRunDoesNotExist(testRun.getTestRunTitle());
-    }
-
-    @Test
-    public void deleteAllTestPlans() {
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
@@ -86,7 +46,37 @@ public class TestRunTests extends BaseTest {
                 .openProject("Qase")
                 .goToTestRunPage();
         testRunPage
-                .deleteAll();
+                .clickOnStartTestRunCreatingButton()
+                .addTestRunParameters(testRun)
+                .checkDataInTheCreatedTestRun(testRun.getTestRunTitle(), testRun.getDescription());
+
+    }
+
+    @Description("Delete test run")
+    @Test
+    public void deleteTestPlan() {
+        TestRun testRun = TestRun.builder()
+                .testRunTitle(faker.harryPotter().character())
+                .description(faker.harryPotter().quote())
+                .plan("New")
+                .environment("")
+                .milestone("")
+                .build();
+        loginPage
+                .openPage()
+                .login(CORRECT_EMAIL, CORRECT_PASSWORD)
+                .isPageOpened();
+        projectsPage
+                .openProject("Qase")
+                .goToTestRunPage();
+        testRunPage
+                .clickOnStartTestRunCreatingButton()
+                .addTestRunParameters(testRun)
+                .validateThatTestRunIsCreated(testRun.getTestRunTitle());
+        testRunPage
+                .deleteTestRun(testRun.getTestRunTitle())
+                .refreshPage()
+                .validateThatTestRunDoesNotExist(testRun.getTestRunTitle());
     }
 
 }

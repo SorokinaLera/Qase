@@ -3,15 +3,16 @@ package tests;
 import io.qameta.allure.Description;
 import models.TestPlan;
 import org.testng.annotations.Test;
+import utils.Retry;
 
 public class TestPlanTests extends BaseTest {
 
-    @Description("Create New Test plan")
-    @Test
+    @Description("Create new test plan")
+    @Test(retryAnalyzer = Retry.class)
     public void createNewTestPlan() {
         TestPlan testPlan = TestPlan.builder()
-                .testPlanTitle("New Test Plan for tests")
-                .description("some description")
+                .testPlanTitle(faker.dune().title())
+                .description(faker.dune().quote())
                 .build();
         loginPage
                 .openPage()
@@ -20,18 +21,18 @@ public class TestPlanTests extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .goToTestPlanPage();
-        testPlansPage
+        testPlanPage
                 .clickOnNewTestPlanCreatingButton()
                 .addTestPlanParameters(testPlan)
-                .validateThatTestPlanIsCreated(testPlan);
+                .validateThatTestPlanIsCreated(testPlan.getTestPlanTitle());
     }
 
     @Description("Check data in the created test plan")
-    @Test
+    @Test(retryAnalyzer = Retry.class)
     public void runNewTestPlan() {
         TestPlan testPlan = TestPlan.builder()
-                .testPlanTitle("Test Plan for runNewTestPlan()")
-                .description("some more description")
+                .testPlanTitle(faker.dune().title())
+                .description(faker.dune().quote())
                 .build();
         loginPage
                 .openPage()
@@ -40,19 +41,20 @@ public class TestPlanTests extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .goToTestPlanPage();
-        testPlansPage
+        testPlanPage
                 .clickOnNewTestPlanCreatingButton()
                 .addTestPlanParameters(testPlan)
-                .validateThatTestPlanIsCreated(testPlan)
-                .checkDataInTheCreatedTestPlan("Test Plan for runNewTestPlan()", testPlan);
+                .validateThatTestPlanIsCreated(testPlan.getTestPlanTitle());
+        testPlanPage
+                .checkDataInTheCreatedTestPlan(testPlan.getTestPlanTitle(), testPlan.getDescription());
     }
 
-    @Description("Delete Test plan")
-    @Test
+    @Description("Delete test plan")
+    @Test(retryAnalyzer = Retry.class)
     public void deleteTestPlan() {
         TestPlan testPlan = TestPlan.builder()
-                .testPlanTitle("Delete me Test Plan")
-                .description("some description")
+                .testPlanTitle(faker.witcher().character())
+                .description(faker.witcher().quote())
                 .build();
         loginPage
                 .openPage()
@@ -61,12 +63,13 @@ public class TestPlanTests extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .goToTestPlanPage();
-        testPlansPage
+        testPlanPage
                 .clickOnNewTestPlanCreatingButton()
                 .addTestPlanParameters(testPlan)
-                .validateThatTestPlanIsCreated(testPlan)
+                .validateThatTestPlanIsCreated(testPlan.getTestPlanTitle());
+        testPlanPage
                 .deleteTestPlan(testPlan.getTestPlanTitle())
                 .refreshPage()
-                .validateThatTestPlanDoesNotExist(testPlan);
+                .validateThatTestPlanDoesNotExist(testPlan.getTestPlanTitle());
     }
 }
