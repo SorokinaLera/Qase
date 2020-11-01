@@ -1,4 +1,4 @@
-package tests.apiForProject.models;
+package tests.api.models;
 
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;

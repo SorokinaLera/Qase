@@ -1,4 +1,4 @@
-package tests.apiForProject.models;
+package tests.api.models;
 
 import com.google.gson.annotations.Expose;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,9 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ProjectResult {
+public class ProjectAPI {
     @Expose
-    String title;
+    boolean status;
     @Expose
-    String code;
+    TestProjectAPI result;
 }

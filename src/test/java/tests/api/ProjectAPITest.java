@@ -1,15 +1,15 @@
-package tests.apiForProject;
+package tests.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
-import tests.apiForProject.models.TestProjectAPI;
+import tests.api.models.TestProjectAPI;
 import org.apache.http.protocol.HTTP;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-import tests.apiForProject.models.ProjectAPI;
-import tests.apiForProject.models.Projects;
+import tests.api.models.ProjectAPI;
+import tests.api.models.Projects;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +18,7 @@ import java.io.FileReader;
 import static io.restassured.RestAssured.given;
 
 @Log4j2
-public class ProjectTestAPI {
+public class ProjectAPITest {
     private static final String URL = "https://api.qase.io/v1/project";
 
     @Test
