@@ -1,9 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
-import models.TestCase;
 import models.TestSuite;
 import org.testng.annotations.Test;
+import models.TestCase;
 import utils.Retry;
 
 public class ProjectTest extends BaseTest {
@@ -70,7 +70,6 @@ public class ProjectTest extends BaseTest {
                 .preConditions(faker.gameOfThrones().city())
                 .postConditions(faker.gameOfThrones().dragon())
                 .build();
-
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
@@ -101,7 +100,6 @@ public class ProjectTest extends BaseTest {
                 .preConditions(faker.beer().malt())
                 .postConditions(faker.beer().hop())
                 .build();
-
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
