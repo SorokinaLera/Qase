@@ -121,21 +121,6 @@ public class TestRunPage extends BasePage {
         return this;
     }
 
-    public TestRunPage deleteAll() {
-        List <WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
-        if (list.size() != 0) {
-                driver.findElement(DROPDOWN).click();
-                driver.findElement(DELETE_TEST_RUN).click();
-                wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
-                driver.findElement(X_ON_DELETE_TEST_PLAN_BUTTON).click();
-                refreshPage();
-        } else {
-            return this;
-        }
-        deleteAll();
-        return this;
-    }
-
     @Step("Validation that information in the test run \"{name}\" is correct")
     public TestRunPage checkDataInTheCreatedTestRun(String name, String description) {
         driver.findElement(By.xpath(String.format(testRunName, name))).click();

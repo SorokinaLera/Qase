@@ -29,6 +29,7 @@ public class LoginPage extends BasePage {
         isPageOpened();
         return this;
     }
+
     @Step("Login using correct credentials")
     public ProjectsPage login(String email, String password){
         log.info("Login with Email: " + email + " Password: " + password);
@@ -37,5 +38,4 @@ public class LoginPage extends BasePage {
         driver.findElement(LOGIN_BUTTON).click();
         return new ProjectsPage(driver);
     }
-
 }

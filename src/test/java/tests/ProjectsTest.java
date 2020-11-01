@@ -35,5 +35,4 @@ public class ProjectsTest extends BaseTest {
                 .openProject("Qase")
                 .isPageOpened();
     }
-
 }

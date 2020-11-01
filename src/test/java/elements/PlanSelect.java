@@ -19,5 +19,4 @@ public class PlanSelect {
         driver.findElement(By.xpath(String.format(locator, label))).click();
         driver.findElement(By.xpath(String.format(optionLocator, option))).click();
     }
-
 }

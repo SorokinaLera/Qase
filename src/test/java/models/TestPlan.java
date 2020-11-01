@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-
 public class TestPlan {
     String testPlanTitle;
     String description;

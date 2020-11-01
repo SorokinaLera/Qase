@@ -20,5 +20,4 @@ public class TestSuite<T> {
     String description;
     @Expose
     String preconditions;
-
 }

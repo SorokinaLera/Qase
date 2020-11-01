@@ -9,7 +9,6 @@ import org.apache.http.protocol.HTTP;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import tests.api.models.ProjectAPI;
-import tests.api.models.Projects;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -20,22 +19,6 @@ import static io.restassured.RestAssured.given;
 @Log4j2
 public class ProjectAPITest {
     private static final String URL = "https://api.qase.io/v1/project";
-
-    @Test
-    public void getAllProjects() {
-        Response response = given()
-                .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", System.getenv("token"))
-                .when()
-                .get(URL)
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract().response();
-        Gson gson = new Gson();
-        Projects ourResponse = gson.fromJson(response.body().asString(), Projects.class);
-        Assert.assertEquals(ourResponse.getResult().getTotal(), 4, "List of Projects was changed, check your response body");
-    }
 
     @Test
     public void getProjectByName() throws FileNotFoundException {

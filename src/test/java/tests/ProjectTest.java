@@ -10,10 +10,10 @@ public class ProjectTest extends BaseTest {
 
     @Description("Create new test suite")
     @Test(retryAnalyzer = Retry.class)
-    public void createNewTestSuite(){
+    public void createNewTestSuite() {
         TestSuite testSuite = TestSuite.builder()
                 .suiteName(faker.lebowski().actor())
-                .parentSuite("")
+                .parent("")
                 .description(faker.lebowski().quote())
                 .preconditions(faker.lebowski().quote())
                 .build();
@@ -35,7 +35,7 @@ public class ProjectTest extends BaseTest {
     public void deleteTestSuite() {
         TestSuite testSuiteForDelete = TestSuite.builder()
                 .suiteName(faker.rickAndMorty().character())
-                .parentSuite("")
+                .parent("")
                 .description(faker.rickAndMorty().quote())
                 .preconditions(faker.rickAndMorty().quote())
                 .build();
@@ -55,7 +55,7 @@ public class ProjectTest extends BaseTest {
 
     @Description("Create new test case")
     @Test(retryAnalyzer = Retry.class)
-    public void createNewTestCase(){
+    public void createNewTestCase() {
         TestCase testCase = TestCase.builder()
                 .title(faker.gameOfThrones().character())
                 .status("Actual")
@@ -85,7 +85,7 @@ public class ProjectTest extends BaseTest {
 
     @Description("Delete test case")
     @Test(retryAnalyzer = Retry.class)
-    public void deleteTestCase(){
+    public void deleteTestCase() {
         TestCase caseForDelete = TestCase.builder()
                 .title(faker.beer().name())
                 .status("Actual")

@@ -16,5 +16,4 @@ public class LoginTest extends BaseTest {
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
                 .isPageOpened();
     }
-
 }

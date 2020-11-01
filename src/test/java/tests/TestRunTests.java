@@ -50,7 +50,6 @@ public class TestRunTests extends BaseTest {
                 .clickOnStartTestRunCreatingButton()
                 .addTestRunParameters(testRun)
                 .checkDataInTheCreatedTestRun(testRun.getTestRunTitle(), testRun.getDescription());
-
     }
 
     @Description("Delete test run")
@@ -79,5 +78,4 @@ public class TestRunTests extends BaseTest {
                 .refreshPage()
                 .validateThatTestRunDoesNotExist(testRun.getTestRunTitle());
     }
-
 }
