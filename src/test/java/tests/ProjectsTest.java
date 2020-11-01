@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.Description;
+import models.Project;
 import org.testng.annotations.Test;
 import utils.Retry;
 
@@ -9,16 +10,22 @@ public class ProjectsTest extends BaseTest {
     @Description("Create New Project")
     @Test(retryAnalyzer = Retry.class)
     public void createNewProject(){
+        Project newProject = Project.builder()
+                .name(faker.elderScrolls().firstName())
+                .code(faker.elderScrolls().city())
+                .description(faker.elderScrolls().race())
+                .build();
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
                 .isPageOpened()
-                .createNewProject("new1", "someCode", "someDescription");
+                .createNewProject(newProject);
         projectsPage
                 .openPage()
-                .validateThatNewProjectIsInProjectsList("new1");
+                .validateThatNewProjectIsInProjectsList(newProject.getName());
     }
 
+    @Description("Open project")
     @Test(retryAnalyzer = Retry.class)
     public void openProject(){
         loginPage
@@ -28,5 +35,4 @@ public class ProjectsTest extends BaseTest {
                 .openProject("Qase")
                 .isPageOpened();
     }
-
 }

@@ -8,14 +8,14 @@ import utils.Retry;
 
 public class ProjectTest extends BaseTest {
 
-    @Description("Create new Suite Case")
-    @Test
-    public void createNewSuiteCase(){
+    @Description("Create new test suite")
+    @Test(retryAnalyzer = Retry.class)
+    public void createNewTestSuite() {
         TestSuite testSuite = TestSuite.builder()
-                .suiteName("SUITENAME2")
-                .parent("No parent suite")
-                .description("description")
-                .preconditions("preconditions")
+                .suiteName(faker.lebowski().actor())
+                .parent("")
+                .description(faker.lebowski().quote())
+                .preconditions(faker.lebowski().quote())
                 .build();
         loginPage
                 .openPage()
@@ -23,22 +23,21 @@ public class ProjectTest extends BaseTest {
                 .isPageOpened();
         projectsPage
                 .openProject("Qase")
-                .validateThatProjectIsOpened("Qase")
                 .clickOnNewSuiteCreatingButton()
                 .addTestSuiteParameters(testSuite)
                 .clickOnSaveButton()
                 .refreshPage()
-                .validateThatNewSuiteIsCreated(testSuite.toString());
+                .validateThatNewSuiteIsCreated(testSuite.getSuiteName());
     }
 
-    @Description("Delete new Suite Case")
-    @Test
-    public void deleteSuiteCase() {
+    @Description("Delete test suite")
+    @Test(retryAnalyzer = Retry.class)
+    public void deleteTestSuite() {
         TestSuite testSuiteForDelete = TestSuite.builder()
-                .suiteName("Delete me")
-                .parent("No parent suite")
-                .description("description")
-                .preconditions("preconditions")
+                .suiteName(faker.rickAndMorty().character())
+                .parent("")
+                .description(faker.rickAndMorty().quote())
+                .preconditions(faker.rickAndMorty().quote())
                 .build();
         loginPage
                 .openPage()
@@ -46,29 +45,31 @@ public class ProjectTest extends BaseTest {
                 .isPageOpened();
         projectsPage
                 .openProject("Qase")
-                .validateThatProjectIsOpened("Qase")
+                .clickOnNewSuiteCreatingButton()
+                .addTestSuiteParameters(testSuiteForDelete)
+                .clickOnSaveButton()
                 .deleteSuite(testSuiteForDelete.getSuiteName())
                 .refreshPage()
                 .validateThatSuiteDoesNotExist(testSuiteForDelete.getSuiteName());
     }
 
+    @Description("Create new test case")
     @Test(retryAnalyzer = Retry.class)
-    public void createNewTestCase(){
-    TestCase testCase = TestCase.builder()
-            .title("testCase for tests")
-            .status("Actual")
-            .description("some description")
-            .suite("Teams")
-            .severity("Minor")
-            .priority("Low")
-            .type("Integration")
-            .milestone("Release 1.1")
-            .behavior("Positive")
-            .automationStatus("To be automated")
-            .preConditions("Some pre-conditions")
-            .postConditions("Some post-conditions")
-            .build();
-
+    public void createNewTestCase() {
+        TestCase testCase = TestCase.builder()
+                .title(faker.gameOfThrones().character())
+                .status("Actual")
+                .description(faker.gameOfThrones().quote())
+                .suite("Teams")
+                .severity("Minor")
+                .priority("Low")
+                .type("Integration")
+                .milestone("Release 1.1")
+                .behavior("Positive")
+                .automationStatus("To be automated")
+                .preConditions(faker.gameOfThrones().city())
+                .postConditions(faker.gameOfThrones().dragon())
+                .build();
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
@@ -82,12 +83,13 @@ public class ProjectTest extends BaseTest {
                 .validateThatNewCaseIsCreated(testCase.getTitle());
     }
 
+    @Description("Delete test case")
     @Test(retryAnalyzer = Retry.class)
-    public void deleteTestCase(){
+    public void deleteTestCase() {
         TestCase caseForDelete = TestCase.builder()
-                .title("Delete it")
+                .title(faker.beer().name())
                 .status("Actual")
-                .description("some description")
+                .description(faker.beer().style())
                 .suite("Teams")
                 .severity("Minor")
                 .priority("Low")
@@ -95,10 +97,9 @@ public class ProjectTest extends BaseTest {
                 .milestone("Release 1.1")
                 .behavior("Positive")
                 .automationStatus("To be automated")
-                .preConditions("Some pre-conditions")
-                .postConditions("Some post-conditions")
+                .preConditions(faker.beer().malt())
+                .postConditions(faker.beer().hop())
                 .build();
-
         loginPage
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
