@@ -1,5 +1,6 @@
 package tests.api;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
@@ -19,6 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class SuiteTest {
     private static final String URL = "https://api.qase.io/v1/suite/";
+    Faker faker = new Faker();
 
     @Test
     public void getListOfSuits() {
@@ -60,7 +62,7 @@ public class SuiteTest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestSuite newTestSuite = new TestSuite("Test", null,"bla", "bla");
+        TestSuite newTestSuite = new TestSuite(faker.howIMetYourMother().character(), null,faker.howIMetYourMother().quote(), faker.howIMetYourMother().catchPhrase());
         String newSuite = gson.toJson(newTestSuite);
 
         Response response = given()
@@ -96,9 +98,9 @@ public class SuiteTest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestSuite newTestSuite = new TestSuite("Test suite", null,"Suite description", "Suite preconditions");
+        TestSuite newTestSuite = new TestSuite(faker.backToTheFuture().character(), null, faker.backToTheFuture().quote(), faker.backToTheFuture().quote());
         String newSuite = gson.toJson(newTestSuite);
-        TestSuite updatedTestSuite = new TestSuite("Test suite", null, "Updated suite description", "Some preconditions");
+        TestSuite updatedTestSuite = new TestSuite(newTestSuite.getSuiteName(), null, faker.chuckNorris().fact(), faker.chuckNorris().fact());
         String updatedData = gson.toJson(updatedTestSuite);
 
         Response response = given()
@@ -144,7 +146,7 @@ public class SuiteTest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestSuite newTestSuite = new TestSuite("Test suite", null,"Suite description", "Suite preconditions");
+        TestSuite newTestSuite = new TestSuite(faker.hobbit().character(), null,faker.hobbit().quote(), faker.hobbit().thorinsCompany());
         String newSuite = gson.toJson(newTestSuite);
 
         Response response = given()

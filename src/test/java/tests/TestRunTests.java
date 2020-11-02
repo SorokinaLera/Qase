@@ -54,7 +54,7 @@ public class TestRunTests extends BaseTest {
 
     @Description("Delete test run")
     @Test(retryAnalyzer = Retry.class)
-    public void deleteTestPlan() {
+    public void deleteTestRun() {
         TestRun testRun = TestRun.builder()
                 .testRunTitle(faker.harryPotter().character())
                 .description(faker.harryPotter().quote())

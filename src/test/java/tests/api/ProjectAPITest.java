@@ -1,5 +1,6 @@
 package tests.api;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
@@ -19,6 +20,7 @@ import static io.restassured.RestAssured.given;
 @Log4j2
 public class ProjectAPITest {
     private static final String URL = "https://api.qase.io/v1/project";
+    Faker faker = new Faker();
 
     @Test
     public void getProjectByName() throws FileNotFoundException {
@@ -44,7 +46,7 @@ public class ProjectAPITest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestProjectAPI newTestProject = new TestProjectAPI("ProjectTitle", "NEWPROJECT");
+        TestProjectAPI newTestProject = new TestProjectAPI(faker.overwatch().hero(), faker.cat().name());
         String newProject = gson.toJson(newTestProject);
 
         Response response = given()
