@@ -46,7 +46,7 @@ public class ProjectAPITest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestProjectAPI newTestProject = new TestProjectAPI(faker.overwatch().hero(), faker.cat().name());
+        TestProjectAPI newTestProject = new TestProjectAPI(faker.overwatch().hero(), faker.cat().name().toUpperCase());
         String newProject = gson.toJson(newTestProject);
 
         Response response = given()
