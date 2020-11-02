@@ -1,5 +1,6 @@
 package tests.api;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.restassured.response.Response;
@@ -18,6 +19,7 @@ import static io.restassured.RestAssured.given;
 
 @Log4j2
 public class ProjectAPITest {
+    Faker faker = new Faker();
     private static final String URL = "https://api.qase.io/v1/project";
 
     @Test
@@ -44,12 +46,12 @@ public class ProjectAPITest {
         Gson gson = new GsonBuilder()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
-        TestProjectAPI newTestProject = new TestProjectAPI("ProjectTitle", "NEWPROJECT");
+        TestProjectAPI newTestProject = new TestProjectAPI(faker.animal().name(), faker.animal().name().toUpperCase());
         String newProject = gson.toJson(newTestProject);
 
         Response response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", System.getenv("token"))
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
                 .body(newProject)
                 .when()
                 .log().body()
@@ -63,7 +65,7 @@ public class ProjectAPITest {
 
         Response newResponse = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
-                .header("Token", System.getenv("token"))
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
                 .when()
                 .get(URL + "/" + responseCode)
                 .then()

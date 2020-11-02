@@ -33,13 +33,21 @@ public class ProjectsPage extends BasePage {
         return this;
     }
 
-    @Step("Create new project")
-    public ProjectPage createNewProject(Project project){
+    public ProjectsPage clickOnCreateNewProjectButton(){
         driver.findElement(CREATE_NEW_PROJECT_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SUBMIT_BUTTON));
+        return this;
+    }
+
+    @Step("Create new project")
+    public ProjectsPage addProjectData(Project project){
         driver.findElement(PROJECT_NAME_INPUT).sendKeys(project.getName());
         driver.findElement(PROJECT_CODE_INPUT).sendKeys(project.getCode());
         driver.findElement(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
+        return this;
+    }
+
+    public ProjectPage submitProjectCreating(){
         driver.findElement(SUBMIT_BUTTON).click();
         return new ProjectPage(driver);
     }

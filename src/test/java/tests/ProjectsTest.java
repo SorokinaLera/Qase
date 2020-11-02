@@ -19,7 +19,9 @@ public class ProjectsTest extends BaseTest {
                 .openPage()
                 .login(CORRECT_EMAIL, CORRECT_PASSWORD)
                 .isPageOpened()
-                .createNewProject(newProject);
+                .clickOnCreateNewProjectButton()
+                .addProjectData(newProject)
+                .submitProjectCreating();
         projectsPage
                 .openPage()
                 .validateThatNewProjectIsInProjectsList(newProject.getName());
