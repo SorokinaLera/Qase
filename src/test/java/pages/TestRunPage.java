@@ -31,7 +31,7 @@ public class TestRunPage extends BasePage {
     public static final By X_ON_DELETE_TEST_RUN_BUTTON = By.cssSelector(".fa.fa-times-circle");
     public static final By RUN_TITLE_FIELD = By.xpath("//*[@id='title']");
     public static final By TEST_RUN_DESCRIPTION = By.cssSelector(".run-description");
-    public static final  By DROPDOWN = By.cssSelector("fa.fa-ellipsis-h");
+    public static final By DROPDOWN = By.cssSelector("fa.fa-ellipsis-h");
 
     public TestRunPage(WebDriver driver) {
         super(driver);
@@ -39,6 +39,7 @@ public class TestRunPage extends BasePage {
 
     @Step("Delete test run \"{testRun}\"")
     public TestRunPage deleteTestRun(String testRun) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_RUNS));
         List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         for (WebElement element : list) {
             String testRunName = element.getText();
