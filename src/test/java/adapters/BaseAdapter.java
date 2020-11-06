@@ -49,7 +49,7 @@ public class BaseAdapter {
         return response;
     }
 
-    @Step("Doing the post request to: '{request}', sending the body: '{file}', validating status code: '{statusCode}'")
+    @Step("Doing the post request to: '{request}', validating status code: '{statusCode}'")
     protected Response post(String request, String body, int statusCode) {
 
         response = given()
@@ -65,7 +65,7 @@ public class BaseAdapter {
         return response;
     }
 
-    @Step("Doing the patch request to: '{request}', sending the body: '{file}', validating status code: '{statusCode}'")
+    @Step("Doing the patch request to: '{request}', validating status code: '{statusCode}'")
     protected Response patch(String uri, String body, int statusCode) {
 
         response = given()
@@ -81,13 +81,13 @@ public class BaseAdapter {
         return response;
     }
 
-    @Step("Validating response via JsonPath: '{status}'")
+    @Step("Validating that response status via JsonPath is TRUE")
     protected BaseAdapter validateTrueStatus(Response response) {
         assertTrue(response.jsonPath().getBoolean("status"));
         return this;
     }
 
-    @Step("Validating response via JsonPath: '{status}'")
+    @Step("Validating that response status via JsonPath is FALSE")
     protected BaseAdapter validateFalseStatus(Response response) {
         assertFalse(response.jsonPath().getBoolean("status"));
         return this;
