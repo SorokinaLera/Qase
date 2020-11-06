@@ -46,6 +46,7 @@ public class ProjectsPage extends BasePage {
 
     @Step("Validate that \"{name}\" is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(String.format(projectName, name))));
         return driver.findElement(By.xpath(String.format(projectName, name))).isDisplayed();
     }
 
