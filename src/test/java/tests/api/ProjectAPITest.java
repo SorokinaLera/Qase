@@ -31,8 +31,9 @@ public class ProjectAPITest {
     public void createNewProject() {
         Project newProject = Project.builder()
                 .name(faker.overwatch().hero())
-                .code(faker.cat().name().toUpperCase())
+                .code(faker.food().ingredient().replace(" ", "").toUpperCase())
                 .build();
+        log.info(String.format("New project: %s. Code of this project: %s", newProject.getName(), newProject.getCode()));
 
         String code = projectAdapter
                 .post(newProject);
