@@ -1,14 +1,20 @@
 package pages;
 
 import io.qameta.allure.Step;
+import lombok.extern.log4j.Log4j2;
 import models.Project;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
+import java.util.List;
+
+@Log4j2
 public class ProjectsPage extends BasePage {
     public static String URL = "projects";
     public static String projectName = "//*[contains(@class, 'defect-title') and contains(text(),'%s')]";
+    public static String numberOfProjectLists = "//*[@class = 'page-item'][%s]";
     public static final By PROJECTS_LIST = By.cssSelector(".project-row");
     public static final By CREATE_NEW_PROJECT_BUTTON = By.id("createButton");
     public static final By PROJECT_NAME_INPUT = By.id("inputTitle");
@@ -46,6 +52,12 @@ public class ProjectsPage extends BasePage {
 
     @Step("Validate that \"{name}\" is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
+        List<WebElement> pages = driver.findElements(By.cssSelector(".page-item"));
+        if (pages.size() != 0){
+            int lastPage = pages.size()-2;
+            log.info("Number of pages: " + lastPage);
+            driver.findElement(By.xpath(String.format(numberOfProjectLists, lastPage))).click();
+        }
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(String.format(projectName, name))));
         return driver.findElement(By.xpath(String.format(projectName, name))).isDisplayed();
     }
