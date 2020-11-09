@@ -54,7 +54,7 @@ public class ProjectsPage extends BasePage {
     public boolean validateThatNewProjectIsInProjectsList(String name){
         List<WebElement> pages = driver.findElements(By.cssSelector(".page-item"));
         if (pages.size() != 0){
-            int lastPage = pages.size()-2;
+            int lastPage = pages.size();
             log.info("Number of pages: " + lastPage);
             driver.findElement(By.xpath(String.format(numberOfProjectLists, lastPage))).click();
         }
