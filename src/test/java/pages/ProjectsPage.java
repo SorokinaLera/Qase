@@ -14,7 +14,7 @@ import java.util.List;
 public class ProjectsPage extends BasePage {
     public static String URL = "projects";
     public static String projectName = "//*[contains(@class, 'defect-title') and contains(text(),'%s')]";
-    public static String numberOfProjectLists = "//*[@class = 'page-item'][%s]";
+    public static String numberOfProjectLists = "//*[text()='%s']";
     public static final By PROJECTS_LIST = By.cssSelector(".project-row");
     public static final By CREATE_NEW_PROJECT_BUTTON = By.id("createButton");
     public static final By PROJECT_NAME_INPUT = By.id("inputTitle");
@@ -54,7 +54,7 @@ public class ProjectsPage extends BasePage {
     public boolean validateThatNewProjectIsInProjectsList(String name){
         List<WebElement> pages = driver.findElements(By.cssSelector(".page-item"));
         if (pages.size() != 0){
-            int lastPage = pages.size();
+            int lastPage = pages.size()-2;
             log.info("Number of pages: " + lastPage);
             driver.findElement(By.xpath(String.format(numberOfProjectLists, lastPage))).click();
         }
