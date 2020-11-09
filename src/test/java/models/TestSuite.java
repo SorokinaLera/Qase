@@ -10,6 +10,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class TestSuite<T> {
+    int id;
     @SerializedName("title")
     @Expose
     String suiteName;
@@ -20,4 +21,4 @@ public class TestSuite<T> {
     String description;
     @Expose
     String preconditions;
-}
+    }
