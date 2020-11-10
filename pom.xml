@@ -9,7 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <maven-surefire-plugin>3.0.0-M3</maven-surefire-plugin>
+        <maven-surefire-plugin>3.0.0-M5</maven-surefire-plugin>
         <aspectjweaver>1.9.1</aspectjweaver>
         <allure-maven>2.10.0</allure-maven>
         <testng.version>7.0.0</testng.version>
@@ -42,6 +42,9 @@
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/1.9.1/aspectjweaver-1.9.1.jar
                         -Xmx256m
                     </argLine>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>${suiteXmlFile}</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
                 <dependencies>
                     <!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
