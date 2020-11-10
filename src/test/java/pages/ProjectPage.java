@@ -45,7 +45,6 @@ public class ProjectPage extends BasePage {
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
         for (WebElement element : trash) {
             String testSuiteName = element.getText();
-            log.info("Existing suite: " + testSuiteName);
             if (testSuiteName.equals(name)) {
                 WebElement trashBinIconElement = driver.findElement(By.xpath(String.format(trashBinButton, name)));
                 Actions actions = new Actions(driver);
@@ -137,6 +136,8 @@ public class ProjectPage extends BasePage {
             String testCaseName = driver.findElement(TEST_CASE).getText();
             if (testCaseName.equals(testCase)) {
                 condition = true;
+                log.info("Test case " + testCase +" is created");
+                break;
             }
         }
         return condition;
@@ -198,6 +199,8 @@ public class ProjectPage extends BasePage {
             String testSuiteName = driver.findElement(TEST_SUITE_NAME_TITLE).getText();
             if (testSuiteName.equals(testSuite)) {
                 condition = true;
+                log.info("Test suite " + testSuite +" is created");
+                break;
             }
         }
         return condition;

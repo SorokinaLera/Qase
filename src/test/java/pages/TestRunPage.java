@@ -17,7 +17,6 @@ import java.util.List;
 import static pages.TestPlanPage.X_ON_DELETE_TEST_PLAN_BUTTON;
 
 @Log4j2
-
 public class TestRunPage extends BasePage {
     public static String URL = "run/";
     public static String testRunName = "//*[(@class= 'defect-title') and contains(text(),'%s')]";
@@ -31,7 +30,6 @@ public class TestRunPage extends BasePage {
     public static final By X_ON_DELETE_TEST_RUN_BUTTON = By.cssSelector(".fa.fa-times-circle");
     public static final By RUN_TITLE_FIELD = By.xpath("//*[@id='title']");
     public static final By TEST_RUN_DESCRIPTION = By.cssSelector(".run-description");
-    public static final By DROPDOWN = By.cssSelector("fa.fa-ellipsis-h");
 
     public TestRunPage(WebDriver driver) {
         super(driver);
@@ -39,12 +37,12 @@ public class TestRunPage extends BasePage {
 
     @Step("Delete test run \"{testRun}\"")
     public TestRunPage deleteTestRun(String testRun) {
-        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_RUNS));
         List<WebElement> list = driver.findElements(LIST_OF_TEST_RUNS);
         for (WebElement element : list) {
             String testRunName = element.getText();
             log.info("Existing test run: " + testRunName);
             if (testRun.equals(testRunName)) {
+                log.info(String.format("Test run \"testRunName\" found", testRunName));
                 driver.findElement(By.xpath(String.format(toggle, testRun))).click();
                 driver.findElement(DELETE_TEST_RUN).click();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_RUN_BUTTON));
@@ -81,27 +79,34 @@ public class TestRunPage extends BasePage {
 
     @Step("Setting parameters for the new test run")
     public TestRunPage addTestRunParameters(TestRun testRun) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(START_RUN_BUTTON));
         driver.findElement(RUN_TITLE_FIELD).clear();
         new Input(driver, "Run title").write(testRun.getTestRunTitle());
+        log.info("Enter the title: " + testRun.getTestRunTitle());
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testRun.getDescription());
         new PlanSelect(driver, "Plan").select(testRun.getPlan());
+        log.info("Select plan: " + testRun.getPlan());
         new PlanSelect(driver, "Environment").select(testRun.getEnvironment());
+        log.info("Select environment: " + testRun.getEnvironment());
         new PlanSelect(driver, "Milestone").select(testRun.getMilestone());
+        log.info("Select milestone: " + testRun.getMilestone());
         WebElement saveButton = driver.findElement(START_RUN_BUTTON);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
         executor.executeScript("arguments[0].click();", saveButton);
-        log.info(String.format("New test run is: %s", testRun.getTestRunTitle()));
+        log.info(String.format("New test run is: %s", testRun.toString()));
         return this;
     }
 
     @Step("Validation that new test run \"{testRunName}\" is created")
     public boolean validateThatTestRunIsCreated(String testRunName) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_RUNS));
         boolean condition = false;
         for (int i = 0; i <= driver.findElements(LIST_OF_TEST_RUNS).size(); i++) {
             String runName = driver.findElement(LIST_OF_TEST_RUNS).getText();
             if (runName.equals(testRunName)) {
                 condition = true;
                 log.info("Test run " + testRunName +" is created");
+                break;
             }
         }
         return condition;
@@ -124,9 +129,11 @@ public class TestRunPage extends BasePage {
 
     @Step("Validation that information in the test run \"{name}\" is correct")
     public TestRunPage checkDataInTheCreatedTestRun(String name, String description) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_RUNS));
         driver.findElement(By.xpath(String.format(testRunName, name))).click();
+        log.info("Opening the test run \"" + name + "\"");
         String runDescription = driver.findElement(TEST_RUN_DESCRIPTION).getText();
-        log.info(String.format("Our description: %s", runDescription));
+        log.info(String.format("Existing description of the test run: %s", runDescription));
         Assert.assertEquals(runDescription, description);
         return this;
     }

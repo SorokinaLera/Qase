@@ -24,8 +24,10 @@ public class TestRunTests extends BaseTest {
         projectsPage
                 .openProject("Qase")
                 .goToTestRunPage();
-        testRunPage.clickOnStartTestRunCreatingButton()
+        testRunPage
+                .clickOnStartTestRunCreatingButton()
                 .addTestRunParameters(testRun)
+                .isPageOpened()
                 .validateThatTestRunIsCreated(testRun.getTestRunTitle());
     }
 
@@ -49,6 +51,7 @@ public class TestRunTests extends BaseTest {
         testRunPage
                 .clickOnStartTestRunCreatingButton()
                 .addTestRunParameters(testRun)
+                .isPageOpened()
                 .checkDataInTheCreatedTestRun(testRun.getTestRunTitle(), testRun.getDescription());
     }
 
@@ -72,6 +75,7 @@ public class TestRunTests extends BaseTest {
         testRunPage
                 .clickOnStartTestRunCreatingButton()
                 .addTestRunParameters(testRun)
+                .isPageOpened()
                 .validateThatTestRunIsCreated(testRun.getTestRunTitle());
         testRunPage
                 .deleteTestRun(testRun.getTestRunTitle())

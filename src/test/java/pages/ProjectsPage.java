@@ -21,6 +21,7 @@ public class ProjectsPage extends BasePage {
     public static final By PROJECT_CODE_INPUT = By.id("inputCode");
     public static final By PROJECT_DESCRIPTION_INPUT = By.id("inputDescription");
     public static final By SUBMIT_BUTTON = By.cssSelector("*[type='submit']");
+    public static final By PAGES = By.cssSelector(".page-item");
 
     public ProjectsPage(WebDriver driver) {
         super(driver);
@@ -44,15 +45,18 @@ public class ProjectsPage extends BasePage {
         driver.findElement(CREATE_NEW_PROJECT_BUTTON).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SUBMIT_BUTTON));
         driver.findElement(PROJECT_NAME_INPUT).sendKeys(project.getName());
+        log.info("Enter the project name: " + project.getName());
         driver.findElement(PROJECT_CODE_INPUT).sendKeys(project.getCode());
+        log.info("Enter the project code: " + project.getCode());
         driver.findElement(PROJECT_DESCRIPTION_INPUT).sendKeys(project.getDescription());
+        log.info("Enter the project description: " + project.getDescription());
         driver.findElement(SUBMIT_BUTTON).click();
         return new ProjectPage(driver);
     }
 
     @Step("Validate that \"{name}\" is in Projects List")
     public boolean validateThatNewProjectIsInProjectsList(String name){
-        List<WebElement> pages = driver.findElements(By.cssSelector(".page-item"));
+        List<WebElement> pages = driver.findElements(PAGES);
         if (pages.size() != 0){
             int lastPage = pages.size()-2;
             log.info("Number of pages: " + lastPage);

@@ -62,8 +62,11 @@ public class TestPlanPage extends BasePage {
     @Step("Setting parameters for a new test plan")
     public TestPlanPage addTestPlanParameters(TestPlan testPlanName) {
         new Input(driver, "Title").write(testPlanName.getTestPlanTitle().replace("\'",""));
+        log.info("Enter the title: " + testPlanName.getTestPlanTitle());
         driver.findElement(DESCRIPTION_FIELD).sendKeys(testPlanName.getDescription());
+        log.info("Enter the description: " + testPlanName.getDescription());
         driver.findElement(ADD_CASES_BUTTON).click();
+        log.info("Click on \"Add cases\" button");
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(SELECT_TEST_CASES_TITLE));
         WebElement saveButton = driver.findElement(SELECT_TEST_CASES_CHECKBOX);
         JavascriptExecutor executor = (JavascriptExecutor)driver;
@@ -77,11 +80,14 @@ public class TestPlanPage extends BasePage {
 
     @Step("Validation that the test plan \"{testPlanName}\" is created")
     public boolean validateThatTestPlanIsCreated(String testPlanName) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_PLANS));
         boolean condition = false;
         for (int i = 0; i <= driver.findElements(LIST_OF_TEST_PLANS).size(); i++) {
             String planName = driver.findElement(LIST_OF_TEST_PLANS).getText();
             if (planName.equals(testPlanName)) {
                 condition = true;
+                log.info("Test run " + testPlanName +" is created");
+                break;
             }
         }
         return condition;
@@ -94,6 +100,7 @@ public class TestPlanPage extends BasePage {
             String testPlanName = element.getText();
             log.info("Test plan: " + testPlanName);
             if (testPlan.equals(testPlanName)) {
+                log.info(String.format("Test plan \"testPlan\" found", testPlan));
                 driver.findElement(TOGGLE_DELETE).click();
                 driver.findElement(DELETE_TEST_PLAN).click();
                 wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(X_ON_DELETE_TEST_PLAN_BUTTON));
@@ -110,7 +117,6 @@ public class TestPlanPage extends BasePage {
         int count = 0;
         for (WebElement element : list) {
             String testPlanName = element.getText();
-            log.info("Test Plan: " + testPlanName);
             if (testPlan.equals(testPlanName)) {
                 log.error(String.format("Test plan '%s' still exists", testPlanName));
                 count++;
@@ -122,7 +128,9 @@ public class TestPlanPage extends BasePage {
 
     @Step("Validation that information in the test plan \"{name}\" is correct")
     public TestPlanPage checkDataInTheCreatedTestPlan(String name, String description) {
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_PLANS));
         driver.findElement(By.xpath(String.format(testPlanNameForSearching, name))).click();
+        log.info("Opening the test plan \"" + name + "\"");
         String planDescription = driver.findElement(EDIT_PAGE_DESCRIPTION_FIELD).getText();
         log.info(String.format("We see \"%s\" ", planDescription));
         Assert.assertEquals(planDescription, description);

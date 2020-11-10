@@ -1,9 +1,9 @@
 package tests;
 
 import io.qameta.allure.Description;
+import models.TestCase;
 import models.TestSuite;
 import org.testng.annotations.Test;
-import models.TestCase;
 import utils.Retry;
 
 public class ProjectTest extends BaseTest {
