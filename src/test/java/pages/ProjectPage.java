@@ -160,12 +160,10 @@ public class ProjectPage extends BasePage {
 
     @Step("Validation that the case \"{testCase}\" does not exist anymore")
     public ProjectPage validateThatCaseDoesNotExist(String testCase) {
-
         List<WebElement> testCases = driver.findElements(TEST_CASE);
         int count = 0;
         for (WebElement element : testCases) {
             String testCaseName = element.getText();
-            log.info("Test case: " + testCaseName);
             if (testCaseName.equals(testCase)) {
                 log.error(String.format("Test case \"%s\" still exists", testCase));
                 count++;
@@ -208,12 +206,10 @@ public class ProjectPage extends BasePage {
 
     @Step("Validation that the test suite \"{testSuite}\" does not exist anymore")
     public ProjectPage validateThatSuiteDoesNotExist(String testSuite) {
-
         List<WebElement> trash = driver.findElements(TEST_SUITE_NAME_TITLE);
         int count = 0;
         for (WebElement element : trash) {
             String testSuiteName = element.getText();
-            log.info("Test suite: " + testSuiteName);
             if (testSuiteName.equals(testSuite)) {
                 log.error(String.format("Test suite '%s' still exists", testSuite));
                 count++;
