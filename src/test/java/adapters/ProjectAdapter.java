@@ -10,7 +10,7 @@ public class ProjectAdapter extends BaseAdapter {
     private static final String API_PATH = "/v1/project/";
 
     public ProjectResult get(String projectName) {
-        Response response = super.get(String.format("%s/%s", API_PATH, projectName), 200);
+        Response response = super.get(String.format("%s%s", API_PATH, projectName), 200);
         validateTrueStatus(response);
         return gson.fromJson(response.asString(), ProjectResult.class);
     }

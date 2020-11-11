@@ -34,7 +34,7 @@ public class BaseAdapter {
         return response;
     }
 
-    @Step("Doing the delete request to: '{request}', validating status code: '{statusCode}'")
+    @Step("Doing the delete request, validating status code: '{statusCode}'")
     protected Response delete(String urn, int statusCode) {
 
         response = given()
@@ -65,7 +65,7 @@ public class BaseAdapter {
         return response;
     }
 
-    @Step("Doing the patch request to: '{request}', validating status code: '{statusCode}'")
+    @Step("Doing the patch request, validating status code: '{statusCode}'")
     protected Response patch(String uri, String body, int statusCode) {
 
         response = given()

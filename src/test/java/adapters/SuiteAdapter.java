@@ -10,7 +10,7 @@ public class SuiteAdapter extends BaseAdapter {
     private static final String API_PATH = "/v1/suite/";
 
     public Result get(String projectName, int suiteId, int statusCode) {
-        Response response = super.get(String.format("%s/%s/%s", API_PATH, projectName, suiteId), statusCode);
+        Response response = super.get(String.format("%s%s/%s", API_PATH, projectName, suiteId), statusCode);
         if (statusCode == 200) {
             validateTrueStatus(response);
         } else {

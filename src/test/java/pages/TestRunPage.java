@@ -109,6 +109,7 @@ public class TestRunPage extends BasePage {
                 break;
             }
         }
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(LIST_OF_TEST_RUNS));
         return condition;
     }
 
