@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,4 +22,10 @@ public class TestCase {
     String automationStatus;
     String preConditions;
     String postConditions;
+    @Expose
+    int id;
+    @SerializedName("title")
+    @Expose
+    String caseName;
+
 }
