@@ -11,8 +11,13 @@ import lombok.Data;
 @AllArgsConstructor
 public class TestPlan {
     @Expose
+    int id;
+    @Expose
     @SerializedName("title")
     String testPlanTitle;
     @Expose
     String description;
+    @Expose
+    int[] cases;
+
 }
