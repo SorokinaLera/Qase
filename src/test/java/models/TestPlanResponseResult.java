@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class TestPlanResult {
+public class TestPlanResponseResult {
     boolean status;
     @Expose
-    TestPlan result;
+    TestPlanResponse<TestCaseJson> result;
 }

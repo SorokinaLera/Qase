@@ -3,8 +3,8 @@ package tests.api;
 import adapters.TestPlanAdapter;
 import com.github.javafaker.Faker;
 import lombok.extern.log4j.Log4j2;
-import models.TestPlan;
-import models.TestPlanResult;
+import models.TestPlanRequest;
+import models.TestPlanResponseResult;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -16,28 +16,33 @@ public class TestPlansAPITest {
 
     @Test
     public void getTestPlanById() {
-        TestPlan expectedResult = TestPlan.builder()
+        TestPlanRequest expectedResult = TestPlanRequest.builder()
                 .testPlanTitle("Ambassador")
                 .description("To save one from a mistake is a gift of paradise.")
                 .build();
 
-        TestPlanResult result = testPlanAdapter
+        TestPlanResponseResult result = testPlanAdapter
                 .get("QASE", 583, 200);
-        assertEquals(result.getResult(), expectedResult);
+        assertEquals(result.getResult().getTestPlanTitle(), expectedResult.getTestPlanTitle());
+        assertEquals(result.getResult().getDescription(), expectedResult.getDescription());
     }
 
     @Test
     public void createNewTestPlan() {
-        TestPlan newTestPlan = TestPlan.builder()
+        TestPlanRequest testPlanRequest = TestPlanRequest.builder()
                 .testPlanTitle(faker.rickAndMorty().character())
                 .description(faker.rickAndMorty().quote())
-                .cases(new int[]{4})
+                .cases(new int[]{4,7})
                 .build();
 
-        int idOfTheCreatedTestPlan = testPlanAdapter
-                .post("QASE", newTestPlan);
-        TestPlanResult result = testPlanAdapter
+        int idOfTheCreatedTestPlan = testPlanAdapter//request
+                .post("QASE", testPlanRequest);
+        TestPlanResponseResult result = testPlanAdapter// response
                 .get("QASE", idOfTheCreatedTestPlan, 200);
-        assertEquals(result.getResult(), newTestPlan);
+        assertEquals(result.getResult().getDescription(), testPlanRequest.getDescription());
+        assertEquals(result.getResult().getTestPlanTitle(), testPlanRequest.getTestPlanTitle());
+        for (int i = 0; i < testPlanRequest.getCases().length; i++) {
+            assertEquals(result.getResult().getCases().get(i).getCaseId(), (Integer) testPlanRequest.getCases()[i]);
+        }
     }
 }

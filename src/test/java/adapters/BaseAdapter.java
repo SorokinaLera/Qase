@@ -55,6 +55,7 @@ public class BaseAdapter {
         response = given()
                 .header(HTTP.CONTENT_TYPE, "application/json")
                 .header("Token", System.getenv("token"))
+                .header("Token", "406e1db90ecc3be6dc280f103455695fc48cb868")
                 .body(body)
                 .when()
                 .post(String.format("%s%s", URL, request))

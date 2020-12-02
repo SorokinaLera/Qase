@@ -1,7 +1,5 @@
 package models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,14 +8,6 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class TestPlan {
-    @Expose
-    int id;
-    @Expose
-    @SerializedName("title")
     String testPlanTitle;
-    @Expose
     String description;
-    @Expose
-    int[] cases;
-
 }
