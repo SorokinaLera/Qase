@@ -18,7 +18,12 @@ public class TestPlanAdapter extends BaseAdapter{
     public int post(String projectName, TestPlanRequest testPlanRequest) {
         Response response = super.post(String.format("%s/%s", API_PATH, projectName), gson.toJson(testPlanRequest), 200);
         validateTrueStatus(response);
-        log.info(response.jsonPath());
         return response.jsonPath().getInt("result.id");
+    }
+
+    public TestPlanResponseResult delete(String projectName, int planId, int statusCode){
+        Response response = super.delete(String.format("%s/%s/%s",API_PATH, projectName, planId), statusCode);
+        validateTrueStatus(response);
+        return gson.fromJson(response.asString(),TestPlanResponseResult.class);
     }
 }

@@ -9,6 +9,7 @@
             <class name="tests.TestPlanTests"/>
             <class name="tests.api.SuiteTest"/>
             <class name="tests.api.ProjectAPITest"/>
+            <class name="tests.api.TestPlansAPITest"/>
         </classes>
     </test>
 </suite>
