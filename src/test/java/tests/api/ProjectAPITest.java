@@ -27,19 +27,4 @@ public class ProjectAPITest {
         log.info(result.getResult());
         assertEquals(result.getResult(), expectedResult);
     }
-
-    @Test(retryAnalyzer = Retry.class)
-    public void createNewProject() {
-        Project newProject = Project.builder()
-                .name(faker.harryPotter().character())
-                .code(faker.harryPotter().character().replace(" ", "").substring(0,8).toUpperCase())
-                .build();
-        log.info(String.format("New project: %s. Code of this project: %s", newProject.getName(), newProject.getCode()));
-
-        String code = projectAdapter
-                .post(newProject);
-        ProjectResult result = projectAdapter
-                .get(code);
-        assertEquals(result.getResult(), newProject);
-    }
 }
