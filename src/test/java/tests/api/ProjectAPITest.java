@@ -31,8 +31,8 @@ public class ProjectAPITest {
     @Test(retryAnalyzer = Retry.class)
     public void createNewProject() {
         Project newProject = Project.builder()
-                .name(faker.overwatch().hero())
-                .code(faker.food().ingredient().replace(" ", "").toUpperCase())
+                .name(faker.harryPotter().character())
+                .code(faker.harryPotter().character().replace(" ", "").substring(0,8).toUpperCase())
                 .build();
         log.info(String.format("New project: %s. Code of this project: %s", newProject.getName(), newProject.getCode()));
 
