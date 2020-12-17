@@ -11,8 +11,8 @@ public class ProjectsTest extends BaseTest {
     @Test(retryAnalyzer = Retry.class)
     public void createNewProject(){
         Project newProject = Project.builder()
-                .name(faker.elderScrolls().firstName())
-                .code(faker.elderScrolls().city())
+                .name(faker.harryPotter().character())
+                .code(faker.hacker().noun())
                 .description(faker.elderScrolls().race())
                 .build();
         loginPage
